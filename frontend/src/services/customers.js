@@ -1,7 +1,7 @@
 import axios from 'axios';
 import env from '../environment.json';
 
-const baseUrl = `https://www.students.cs.ubc.ca/~${env}/uberdash/backend/api/customers`;
+const baseUrl = `https://www.students.cs.ubc.ca/~${env.cwl}/uberdash/backend/api/customers`;
 
 async function getAll() {
   const response = await axios.get(`${baseUrl}/getAll.php`);
