@@ -9,6 +9,10 @@ function LoginForm() {
     console.log('loggining in');
   }
 
+  function printCustomers() {
+
+  }
+
   return (
     <form onSubmit={handleSubmit}>
       <div>
@@ -26,6 +30,7 @@ function LoginForm() {
         </input>
       </div>
       <button type="submit">Login</button>
+      <button onClick={printCustomers}>Print Existing Customers</button>
     </form>
   );
 }
