@@ -1,0 +1,1 @@
+GET https://www.students.cs.ubc.ca/~dryu/uberdash/backend/api/paymentInfo/getAll.php
