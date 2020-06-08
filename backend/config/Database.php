@@ -1,10 +1,19 @@
 <?php
+  include_once '../../environment.php';
+
   class Database {
-    private $db_uri = 'dbhost.students.cs.ubc.ca:1522/stu';
-    private $username = 'ora_dryu';
-    private $password = 'a23276561';
+    private $db_uri;
+    private $username;
+    private $password;
     private $statement = null;
     public $db_conn = null;
+
+    public function __construct(){
+      // echo $_ENV['db_uri'];
+      $this->db_uri = $_ENV['db_uri'];
+      $this->username = $_ENV['db_username'];
+      $this->password = $_ENV['db_password'];
+    }
 
     public function connect() {
       $this->db_conn = OCILogon($this->username, $this->password, $this->db_uri);
