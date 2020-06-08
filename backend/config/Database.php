@@ -9,7 +9,6 @@
     public $db_conn = null;
 
     public function __construct(){
-      // echo $_ENV['db_uri'];
       $this->db_uri = $_ENV['db_uri'];
       $this->username = $_ENV['db_username'];
       $this->password = $_ENV['db_password'];
