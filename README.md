@@ -36,7 +36,9 @@ A very original idea from very original people.
 
 ## Development + Testing
 - **Frontend**: on your local machine, cd into `frontend/` and run `npm start` to boot up the React app.
-- **Backend**: to effectively test whether our REST api works as intended, install any piece of software that can easily let you make REST requests to a server. If your request is meant to modify the database, you will also have to check the database state with `sqlplus` like we had to do for tutorial 7. Some good choices for REST communication software are:
-  - vscode extension 'REST Client'
-  - Postman
+- **Backend**: 
+  - to effectively test whether our REST api works as intended, install any piece of software that can easily let you make REST requests to a server. If your request is meant to modify the database, you will also have to  check the database state with `sqlplus` like we had to do for tutorial 7. Some good choices for REST communication software are:
+    - vscode extension 'REST Client'
+    - Postman
+  - every time you make changes to the backend, you will have to move the changed files onto the server. Even with cyberduck this is tedious but oh well, if anyone knows how to automate this please let us know 😬
 - **End-to-End**: in `frontend/src/services/`, we have JS modules that can make REST requests to our backend with the npm `axios` library. Each module should be responsible for one respective endpoint and database table e.g. `customers.js` is responsible for making requests to the customers endpoint in the backend, and therefore making queries to the CUSTOMERS table in the database.
