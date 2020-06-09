@@ -23,9 +23,14 @@ GRANT SELECT ON Customers TO public;
 
 INSERT INTO PaymentInfo 
 VALUES ('12345678', 'Mingxin Gong', '5501 West Mall, V5X 3L4');
-
 INSERT INTO PaymentInfo 
 VALUES ('87654321', 'Chris Tse', '1234 10th Avenue, V6Y 5I9');
-
 INSERT INTO PaymentInfo 
 VALUES ('910111213', 'Daniel Ryu', '1430 Wesbrook Mall, V6X 5I1');
+
+INSERT INTO Customers
+VALUES ('1', 'rujjiryu99@gmail.com', 'password', '12345678');
+INSERT INTO Customers 
+VALUES ('2', 'ChristopherTse98@gmail.com', 'password', '87654321');
+INSERT INTO Customers 
+VALUES ('3', 'mingxin.gong2@gmail.com', 'password', '12345678');
