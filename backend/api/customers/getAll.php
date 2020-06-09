@@ -1,11 +1,25 @@
 <?php 
+  // Imports
+  include_once '../../config/Database.php';
+  
   // Headers
   header('Access-Control-Allow-Origin: *');
   header('Content-Type: application/json');
 
-  include_once '../../config/Database.php';
-
+  // init DB & connect
   $database = new Database();
   $database->connect();
 
+  // create and execute query
+  $query = "SELECT * FROM Customers";
+  $result = $database->executeFetchAll($query);   
+
+  // create response array containing query result
+  $response = $result;
+
+  // return response in JSON format
+  echo json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
+
+  // disconnect from DB
+  $database->disconnect();
 ?>
