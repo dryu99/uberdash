@@ -8,9 +8,14 @@ async function getAll() {
   return response.data;
 }
 
+async function getSingle(phoneNumber) {
+  const response = await axios.get(`${baseUrl}/getSingle.php?PhoneNumber=${phoneNumber}`);
+  return response.data;
+}
+
 async function create(newData) {
   const response = await axios.post(`${baseUrl}/create.php`, newData);
   return response.data;
 }
 
-export default { getAll, create };
+export default { getAll, getSingle, create };
