@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
 import customerService from '../services/customers';
 
-function LoginForm() {
-  const [userType, setUserType] = useState('customer');
+function LoginForm({ userType, setUserType }) {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
 
   async function handleSubmit(e) {
     e.preventDefault();
     console.log('logging in');
-    const customer = await customerService.getSingle(phoneNumber);
-    if (customer) {
+    try {
+      const customer = await customerService.getSingle(phoneNumber);
       console.log('login succeeded');
       console.log(customer);
-    } else {
+    } catch (error) {
       console.log('login failed');
+      console.error(error);
     }
   }
 
