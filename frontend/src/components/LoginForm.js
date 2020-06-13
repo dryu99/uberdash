@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import customerService from '../services/customers';
 
 function LoginForm() {
+  const [userType, setUserType] = useState('customer');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
 
@@ -19,9 +20,15 @@ function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit}>
+      <select value={userType} onChange={(e) => setUserType(e.target.value)}>
+        <option value="customer">Customer</option>
+        <option value="restaurantAdmin">Restaurant Admin</option>
+        <option value="deliverer">Deliverer</option>
+      </select>
       <div>
         <span>Phone Number</span>
         <input
+          value={phoneNumber}
           name="phonenumber"
           onChange={(e) => setPhoneNumber(e.target.value)}>
         </input>
@@ -29,6 +36,7 @@ function LoginForm() {
       <div>
         <span>Password</span>
         <input
+          value={password}
           name="password"
           onChange={(e) => setPassword(e.target.value)}>
         </input>
