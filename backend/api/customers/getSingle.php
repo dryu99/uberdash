@@ -13,7 +13,7 @@
   // get params from request
   $phone_number = isset($_GET['PhoneNumber']) 
     ? $_GET['PhoneNumber'] 
-    : die();
+    : die(http_response_code(404));
 
   // create and execute query
   $query = "SELECT *
@@ -24,8 +24,8 @@
 
   // init response variable containing query result
   $response = count($result) > 0 
-    ? $result[0] // result is an array, we just want the single result found
-    : die();
+    ? $result[0] // query succeeded, specified customer was found
+    : die(http_response_code(404)); // query failed, specified customer couldn't be found
 
   // return response in JSON format
   echo json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
