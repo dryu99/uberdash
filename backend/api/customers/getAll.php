@@ -14,7 +14,7 @@
   $query = "SELECT * FROM Customers";
   $result = $database->executeFetchAll($query);   
 
-  // create response array containing query result
+  // init response variable containing query result
   $response = $result;
 
   // return response in JSON format
