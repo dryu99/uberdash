@@ -1,25 +1,36 @@
 import React, { useState } from 'react';
-import customerService from '../services/customers';
+import loginService from '../services/login';
 
-function LoginForm({ userType, setUserType }) {
+function LoginForm({ userType, setUserType, setCurrentUser }) {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
 
-  async function handleSubmit(e) {
+  async function handleLogin(e) {
     e.preventDefault();
-    console.log('logging in');
     try {
-      const customer = await customerService.getSingle(phoneNumber);
-      console.log('login succeeded');
-      console.log(customer);
+      let user;
+      if (userType === 'customer') {
+        user = await loginService.customerLogin({ username: phoneNumber, password });
+      } else if (userType === 'restaurantAdmin') {
+        user = await loginService.restaurantAdminLogin({ username: phoneNumber, password });
+      } else {
+        user = await loginService.delivererLogin({ username: phoneNumber, password });
+      }
+      user = { ...user, type: userType };
+
+      // cache user data in browser
+      window.localStorage.setItem('loggedInUser', JSON.stringify(user));
+
+      setCurrentUser(user);
+      setPhoneNumber('');
+      setPassword('');
     } catch (error) {
-      console.log('login failed');
-      console.error(error);
+      alert('Login Failed! Username or password was incorrect.');
     }
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleLogin}>
       <select value={userType} onChange={(e) => setUserType(e.target.value)}>
         <option value="customer">Customer</option>
         <option value="restaurantAdmin">Restaurant Admin</option>
