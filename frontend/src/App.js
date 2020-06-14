@@ -22,14 +22,15 @@ function App() {
     setCurrentUser(null);
   }
 
-  // conditionally choose user component based on current user type
-  let userComponent;
-  if (userType === 'customer') {
-    userComponent = <CustomerHome currentUser={currentUser}/>;
-  } else if (userType === 'restaurantAdmin') {
-    userComponent = <RestaurantAdminHome currentUser={currentUser}/>;
-  } else {
-    userComponent = <DelivererHome currentUser={currentUser}/>;
+  // conditional component based on current user type
+  function currentUserComponent(currentUser) {
+    if (currentUser.type === 'customer') {
+      return <CustomerHome currentUser={currentUser}/>;
+    } else if (currentUser.type === 'restaurantAdmin') {
+      return <RestaurantAdminHome currentUser={currentUser}/>;
+    } else {
+      return <DelivererHome currentUser={currentUser}/>;
+    }
   }
 
   return (
@@ -38,7 +39,7 @@ function App() {
       {currentUser ?
         <div>
           <h3>Current user: {currentUser.NAME}</h3>
-          {userComponent}
+          {currentUserComponent(currentUser)}
           <button onClick={handleLogout}>logout</button>
         </div>
         :
