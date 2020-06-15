@@ -5,8 +5,8 @@
     FROM Customers c
     INNER JOIN PaymentInfo pi
       ON c.CreditCardNumber = pi.CreditCardNumber   
-    WHERE c.PhoneNumber = :PhoneNumber
-      AND c.Password = :Password";
+    WHERE c.Customer_PhoneNumber = :PhoneNumber
+      AND c.Customer_Password = :Password";
 
   login($query);
 ?>
