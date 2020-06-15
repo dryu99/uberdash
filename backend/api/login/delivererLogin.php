@@ -2,7 +2,7 @@
   include_once './login.php';
   
   $query = "SELECT *
-    FROM Deliverers
+    FROM Deliverer
     WHERE PhoneNumber = :PhoneNumber
       AND Password = :Password";
 
