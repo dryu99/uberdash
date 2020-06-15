@@ -24,6 +24,8 @@
       ON rl.Restaurant_Name = r.Restaurant_Name
     INNER JOIN Customers c
       ON oi.Customer_PhoneNumber = c.Customer_PhoneNumber
+    INNER JOIN OrderStatus os
+      ON oi.OrderStatus_ID = os.OrderStatus_ID
     WHERE oi.Deliverer_PhoneNumber = :DelivererPhoneNumber";
   $bindvars = [[":DelivererPhoneNumber", $deliv_phone_number]];
   $result = $database->executeFetchAll($query, $bindvars);   
