@@ -1,9 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import OrderList from './OrderList';
+import orderInformationService from '../../services/orderInformation';
 
-function DelivererHome() {
+function DelivererHome({ currentUser }) {
+  const [orders, setOrders] = useState([]);
+
+  // after first rendering of this component, fetch deliverer's order data from db
+  useEffect(() => {
+    orderInformationService.getAllForDeliverer(currentUser.PHONENUMBER)
+      .then(initialOrders => {
+        setOrders(initialOrders);
+      });
+  }, [currentUser]);
 
   return (
-    <div>Deliverer Home</div>
+    <div>
+      <h2>Deliverer Home</h2>
+      <OrderList orders={orders} />
+    </div>
   );
 }
 
