@@ -19,15 +19,12 @@
   $query = "SELECT *
     FROM OrderInformation oi
     INNER JOIN RestaurantLocation rl
-      ON oi.RestaurantAddress = rl.Address
+      ON oi.Restaurant_Address = rl.Restaurant_Address
     INNER JOIN Restaurant r
-      ON rl.Name = r.Name
-    INNER JOIN Restaurant r
-      ON rl.Name = r.Name
+      ON rl.Restaurant_Name = r.Restaurant_Name
     INNER JOIN Customers c
-      ON oi.CustomerPhoneNumber = c.PhoneNumber
-      -- TODO add another join for customer name (but hold off for now, we might change schema)
-    WHERE oi.DelivererPhoneNumber = :DelivererPhoneNumber";
+      ON oi.Customer_PhoneNumber = c.Customer_PhoneNumber
+    WHERE oi.Deliverer_PhoneNumber = :DelivererPhoneNumber";
   $bindvars = [[":DelivererPhoneNumber", $deliv_phone_number]];
   $result = $database->executeFetchAll($query, $bindvars);   
 
