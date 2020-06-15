@@ -7,7 +7,7 @@ function DelivererHome({ currentUser }) {
 
   // after first rendering of this component, fetch deliverer's order data from db
   useEffect(() => {
-    orderInformationService.getAllForDeliverer(currentUser.PHONENUMBER)
+    orderInformationService.getAllForDeliverer(currentUser.DELIVERER_PHONENUMBER)
       .then(initialOrders => {
         setOrders(initialOrders);
       });
