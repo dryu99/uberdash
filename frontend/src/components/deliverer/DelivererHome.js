@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import OrderList from './OrderList';
+import DelivererInfo from './DelivererInfo';
 import Filter from './Filter';
+import OrderList from './OrderList';
 import GroupCount from './GroupCount';
 import orderService from '../../services/orderInformation';
 
@@ -20,7 +21,7 @@ function DelivererHome({ currentUser }) {
     <div>
       <h2>Deliverer Home</h2>
 
-      {/* component for user info*/}
+      <DelivererInfo currentUser={currentUser}/>
 
       <Filter
         setOrders={setOrders}

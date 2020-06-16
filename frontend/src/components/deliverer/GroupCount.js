@@ -29,7 +29,7 @@ function GroupCount({ currentUser }) {
       <ul>
         {groupCounts.map((data, i) =>
           <li key={i}>
-            {data.GROUPTYPE ? data.GROUPTYPE : 'Total Count'}: {data.COUNT}
+            {data.GROUPTYPE ? data.GROUPTYPE : 'Order Count'}: {data.COUNT}
           </li>
         )}
       </ul>
