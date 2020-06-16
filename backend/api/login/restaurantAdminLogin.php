@@ -2,9 +2,9 @@
   include_once './login.php';
   
   $query = "SELECT *
-    FROM RestaurantAdmin
-    WHERE RestaurantAdmin_PhoneNumber = :PhoneNumber
-      AND RestaurantAdmin_Password = :Password";
+    FROM RestaurantAdmins
+    WHERE PhoneNumber = :PhoneNumber
+      AND Password = :Password";
 
   login($query);
 ?>

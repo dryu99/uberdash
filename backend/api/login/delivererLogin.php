@@ -2,9 +2,9 @@
   include_once './login.php';
   
   $query = "SELECT *
-    FROM Deliverer
-    WHERE Deliverer_PhoneNumber = :PhoneNumber
-      AND Deliverer_Password = :Password";
+    FROM Deliverers
+    WHERE PhoneNumber = :PhoneNumber
+      AND Password = :Password";
 
   login($query);
 ?>
