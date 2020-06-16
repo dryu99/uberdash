@@ -236,12 +236,20 @@ VALUES ('Patty Melt', '2909 Grandview Hwy', 5.25, 'Eat Me Now', 3);
 INSERT INTO MenuItemsMadeAt
 VALUES ('McChicken', '2033 E Hastings St', 5.50, 'Delicious', 3.50);
 INSERT INTO MenuItemsMadeAt
+VALUES ('Filet-o-Fish', '2033 E Hastings St', 3.50, 'Awesome', 5.50);
+INSERT INTO MenuItemsMadeAt
+VALUES ('Big Mac', '2033 E Hastings St', 6.50, 'The classic', 1.50);
+INSERT INTO MenuItemsMadeAt
 VALUES ('Whopper', '4700 Kingsway Unit 1200e', 3.75, 'Grilled', 2);
 
 INSERT INTO OrderContainsMenuItem
 VALUES (0, 'Patty Melt', '2909 Grandview Hwy', 2);
 INSERT INTO OrderContainsMenuItem
 VALUES (1, 'McChicken', '2033 E Hastings St', 5);
+INSERT INTO OrderContainsMenuItem
+VALUES (1, 'Filet-o-Fish', '2033 E Hastings St', 2);
+INSERT INTO OrderContainsMenuItem
+VALUES (1, 'Big Mac', '2033 E Hastings St', 1);
 INSERT INTO OrderContainsMenuItem
 VALUES (2, 'Whopper', '4700 Kingsway Unit 1200e', 3);
 
