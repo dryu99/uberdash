@@ -8,4 +8,14 @@ async function getAllForDeliverer(delivererPhoneNumber) {
   return response.data;
 }
 
-export default { getAllForDeliverer };
+async function getSingle(orderID) {
+  const response = await axios.get(`${baseUrl}/getSingle.php?OrderInformation_ID=${orderID}`);
+  return response.data;
+}
+
+async function updateSingleOrderStatus(newOrderData) {
+  const response = await axios.post(`${baseUrl}/updateSingleOrderStatus.php`, newOrderData);
+  return response.data;
+}
+
+export default { getAllForDeliverer, getSingle, updateSingleOrderStatus };

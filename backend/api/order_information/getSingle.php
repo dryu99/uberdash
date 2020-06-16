@@ -18,6 +18,14 @@
   // create and execute query
   $query = "SELECT *
     FROM OrderInformation oi
+    INNER JOIN RestaurantLocation rl
+      ON oi.Restaurant_Address = rl.Restaurant_Address
+    INNER JOIN Restaurant r
+      ON rl.Restaurant_Name = r.Restaurant_Name
+    INNER JOIN Customers c
+      ON oi.Customer_PhoneNumber = c.Customer_PhoneNumber
+    INNER JOIN OrderStatus os
+      ON oi.OrderStatus_ID = os.OrderStatus_ID
     WHERE oi.OrderInformation_ID = :OrderInformation_ID";
   $bindvars = [[":OrderInformation_ID", $order_information_id]];
   $result = $database->executeFetchAll($query, $bindvars);   

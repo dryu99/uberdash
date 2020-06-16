@@ -32,11 +32,13 @@
 
   try {
     $database->execute($query, $bindvars);   
-    echo json_encode(['message' => "Order $data->orderInfoID was successfully updated"], JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_NUMERIC_CHECK);
+    echo json_encode(['message' => "Order $data->orderInfoID was successfully updated"], 
+      JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_NUMERIC_CHECK);
   } catch (Exception $e) {
     // if sth goes wrong return error response
     http_response_code(404);
-    echo json_encode(['error' => $e.getMessage()], JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
+    echo json_encode(['error' => $e.getMessage()], 
+      JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
   }
 
   // disconnect from DB
