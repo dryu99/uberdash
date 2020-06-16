@@ -30,6 +30,7 @@ function DelivererHome({ currentUser }) {
 
       <OrderList
         orders={orders}
+        setOrders={setOrders}
       />
 
       <GroupCount

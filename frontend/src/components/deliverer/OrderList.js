@@ -9,7 +9,7 @@ function OrderList({ orders, setOrders }) {
     const orderID = order.ORDERINFORMATION_ID;
     if(window.confirm(`Are you sure you want to update delivery status of Order No. ${orderID}?`)) {
       try {
-      // update order status for given order in db
+        // update order status for given order in db
         await orderService.updateSingleOrderStatus({
           orderInfoID: orderID,
           orderStatusID: 3
