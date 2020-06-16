@@ -25,14 +25,9 @@
     ? $_GET['FilterValue']
     : die(http_response_code(404));
 
-  // optional table param
-  $tableName = isset($_GET['TableName'])
-    ? $_GET['TableName']
-    : '';  
-
   // have to specify table alias for Restaurant attributes
-  if ($tableName === 'Restaurant') {
-    $tableName = 'r.';
+  if ($filterType === 'RESTAURANT_NAME' || $filterType === 'RESTAURANT_ADDRESS') {
+    $filterType = "r.$filterType";
   }
 
   // create and execute query
@@ -47,7 +42,7 @@
     INNER JOIN OrderStatus os
       ON oi.OrderStatus_ID = os.OrderStatus_ID
     WHERE oi.Deliverer_PhoneNumber = :DelivererPhoneNumber
-      AND  $tableName$filterType = :FilterValue";
+      AND  $filterType = :FilterValue";
   $bindvars = [[":DelivererPhoneNumber", $deliv_phone_number],
                [":FilterValue", $filterValue]];
   $result = $database->executeFetchAll($query, $bindvars);   

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import OrderList from './OrderList';
 import Filter from './Filter';
+import GroupCount from './GroupCount';
 import orderService from '../../services/orderInformation';
 
 function DelivererHome({ currentUser }) {
@@ -22,36 +23,35 @@ function DelivererHome({ currentUser }) {
   // callback for update status button
   async function updateDeliveryStatus(order) {
     const orderID = order.ORDERINFORMATION_ID;
+    if(window.confirm(`Are you sure you want to update delivery status of Order No. ${orderID}?`)) {
+      try {
+        // update order status for given order in db
+        await orderService.updateSingleOrderStatus({
+          orderInfoID: orderID,
+          orderStatusID: 3
+        });
 
-    try {
-      // update order status for given order in db
-      await orderService.updateSingleOrderStatus({
-        orderInfoID: orderID,
-        orderStatusID: 3
-      });
+        // retrieve given order from db and update frontend state
+        const updatedOrder = await orderService.getSingle(orderID);
+        setOrders(orders.map(o => o.ORDERINFORMATION_ID === orderID ? updatedOrder : o));
 
-      // retrieve given order from db and update frontend state
-      const updatedOrder = await orderService.getSingle(orderID);
-      setOrders(orders.map(o => o.ORDERINFORMATION_ID === orderID ? updatedOrder : o));
-
-      alert(`Order No. ${orderID} status updated!`);
-    } catch (error) {
-      alert(`Something went wrong, ${orderID} probably doesn't exist.`);
+        alert(`Order No. ${orderID} status updated!`);
+      } catch (error) {
+        alert(`Something went wrong, ${orderID} probably doesn't exist.`);
+      }
     }
   }
 
+  // callback for filter button
   async function filterOrders() {
     if (filterType === 'ALL') {
       setFilteredOrders(orders);
     } else {
       try {
-        // have to specify table name only for RESTAURANT_NAME b/c of aliases in db
-        const tableName = filterType === 'RESTAURANT_NAME' ? 'Restaurant' : null;
-
         const newlyFilteredOrders =
           await orderService.getAllForDelivererConditional(
             currentUser.DELIVERER_PHONENUMBER,
-            { filterType, filterValue, tableName }
+            { filterType, filterValue }
           );
         setFilteredOrders(newlyFilteredOrders);
       } catch (error) {
@@ -63,6 +63,9 @@ function DelivererHome({ currentUser }) {
   return (
     <div>
       <h2>Deliverer Home</h2>
+
+      {/* component for user info*/}
+
       <Filter
         orders={orders}
         filterValue={filterValue}
@@ -75,6 +78,10 @@ function DelivererHome({ currentUser }) {
       <OrderList
         orders={filteredOrders} // we only want to render filtered orders
         updateDeliveryStatus={updateDeliveryStatus}
+      />
+
+      <GroupCount
+        currentUser={currentUser}
       />
     </div>
   );

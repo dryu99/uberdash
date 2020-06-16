@@ -16,11 +16,20 @@ async function getAllForDeliverer(delivererPhoneNumber, column) {
  * @param {string} [params.tableName]
  **/
 async function getAllForDelivererConditional(delivererPhoneNumber, params) {
-  const { filterType, filterValue, tableName } = params;
-  const tableParam = tableName ? `&TableName=${tableName}` : '';
+  const { filterType, filterValue } = params;
   const response = await axios.get(
-    `${baseUrl}/getAllForDelivererConditional.php?DelivererPhoneNumber=${delivererPhoneNumber}&FilterType=${filterType}&FilterValue=${filterValue}${tableParam}`
+    `${baseUrl}/getAllForDelivererConditional.php?DelivererPhoneNumber=${delivererPhoneNumber}&FilterType=${filterType}&FilterValue=${filterValue}`
   );
+  return response.data;
+}
+
+/**
+ * @param {object} params
+ * @param {string} params.groupType
+ **/
+async function getGroupCountsForDeliverer(delivererPhoneNumber, params) {
+  const { groupType } = params;
+  const response = await axios.get(`${baseUrl}/getGroupCountsForDeliverer.php?DelivererPhoneNumber=${delivererPhoneNumber}&Group=${groupType}`);
   return response.data;
 }
 
@@ -34,4 +43,10 @@ async function updateSingleOrderStatus(newOrderData) {
   return response.data;
 }
 
-export default { getAllForDeliverer, getAllForDelivererConditional, getSingle, updateSingleOrderStatus };
+export default {
+  getAllForDeliverer,
+  getAllForDelivererConditional,
+  getGroupCountsForDeliverer,
+  getSingle,
+  updateSingleOrderStatus
+};
