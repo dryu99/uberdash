@@ -1,28 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
+import orderService from '../../services/orderInformation';
 
-function Filter({ orders, filterValue, setFilterValue, filterType, setFilterType, filterOrders }) {
+function Filter({ setOrders, currentUser }) {
+  const [filterType, setFilterType] = useState('ALL');
+  const [filterValue, setFilterValue] = useState('');
+  const [filterValueOptions, setFilterValueOptions] = useState([]);
+
   // event handler for filter type change event
-  function handleFilterTypeChange(e) {
+  async function handleFilterTypeChange(e) {
     const newFilterType = e.target.value;
     setFilterType(newFilterType);
-    setFilterValue(orders[0][newFilterType]);
+
+    // only need to find new options if current filter type isn't ALL
+    if (newFilterType !== 'ALL') {
+      const newFilterValueOptions =
+        await orderService.getAllForDeliverer(currentUser.DELIVERER_PHONENUMBER, newFilterType);
+      setFilterValueOptions(newFilterValueOptions);
+      setFilterValue(newFilterValueOptions[0][newFilterType]);
+    } else {
+      setFilterValueOptions([]);
+      setFilterValue('');
+    }
   }
 
-  // dynamically generates the filter value options component based on current filter type
-  function filterValueComponent(currentFilterType) {
-    // projected orders only contain 1 attribute each
-    const orderFilterValues = [...new Set(orders.map(o => o[currentFilterType]))];
-
-    return <select value={filterValue} onChange={(e) => setFilterValue(e.target.value)}>
-      {orderFilterValues.map(orderFilterValue =>
-        <option
-          key={orderFilterValue}
-          value={orderFilterValue}
-        >
-          {orderFilterValue}
-        </option>
-      )}
-    </select>;
+  // callback for filter button
+  async function filterOrders() {
+    let filteredOrders = [];
+    try {
+      if (filterType === 'ALL') {
+        // find all orders
+        filteredOrders = await orderService.getAllForDeliverer(
+          currentUser.DELIVERER_PHONENUMBER
+        );
+      } else {
+        // get orders filtered to the current conditions
+        filteredOrders =
+          await orderService.getAllForDelivererConditional(
+            currentUser.DELIVERER_PHONENUMBER,
+            { filterType, filterValue }
+          );
+      }
+    } catch (error) {
+      alert('Couldn\'t filter for some reason...');
+    } finally {
+      setOrders(filteredOrders);
+    }
   }
 
   return (
@@ -37,7 +59,19 @@ function Filter({ orders, filterValue, setFilterValue, filterType, setFilterType
         <option value="ORDERSTATUS_NAME">Order Status</option>
       </select>
       {filterType !== 'ALL' ?
-        <span>={filterValueComponent(filterType)}</span>
+        <React.Fragment>
+          =
+          <select value={filterValue} onChange={(e) => setFilterValue(e.target.value)}>
+            {filterValueOptions.map(option =>
+              <option
+                key={option[filterType]}
+                value={option[filterType]}
+              >
+                {option[filterType]}
+              </option>
+            )}
+          </select>
+        </React.Fragment>
         :
         null
       }
