@@ -11,7 +11,7 @@ function Order({ order, updateDeliveryStatus }) {
   if (order.ORDERSTATUS_ID !== 4) {
     return (
       <div style={style}>
-        <div><b>No.:</b> {order.ORDERINFORMATION_ID}</div>
+        <div><b>ID:</b> {order.ORDERINFORMATION_ID}</div>
         <div><b>Date:</b> {order.ORDERINFORMATION_ORDERDATE}</div>
         <div><b>Customer Name:</b> {order.CUSTOMER_NAME}</div>
         <div><b>Customer Address:</b> {order.ORDERINFORMATION_ORDERADDRESS}</div>

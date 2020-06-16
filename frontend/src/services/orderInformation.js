@@ -9,6 +9,21 @@ async function getAllForDeliverer(delivererPhoneNumber, column) {
   return response.data;
 }
 
+/**
+ * @param {object} params
+ * @param {string} params.filterType
+ * @param {string} params.filterValue
+ * @param {string} [params.tableName]
+ **/
+async function getAllForDelivererConditional(delivererPhoneNumber, params) {
+  const { filterType, filterValue, tableName } = params;
+  const tableParam = tableName ? `&TableName=${tableName}` : '';
+  const response = await axios.get(
+    `${baseUrl}/getAllForDelivererConditional.php?DelivererPhoneNumber=${delivererPhoneNumber}&FilterType=${filterType}&FilterValue=${filterValue}${tableParam}`
+  );
+  return response.data;
+}
+
 async function getSingle(orderID) {
   const response = await axios.get(`${baseUrl}/getSingle.php?OrderInformation_ID=${orderID}`);
   return response.data;
@@ -19,4 +34,4 @@ async function updateSingleOrderStatus(newOrderData) {
   return response.data;
 }
 
-export default { getAllForDeliverer, getSingle, updateSingleOrderStatus };
+export default { getAllForDeliverer, getAllForDelivererConditional, getSingle, updateSingleOrderStatus };

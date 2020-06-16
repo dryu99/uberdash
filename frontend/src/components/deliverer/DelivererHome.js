@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import OrderList from './OrderList';
 import Filter from './Filter';
-import orderInformationService from '../../services/orderInformation';
+import orderService from '../../services/orderInformation';
 
 function DelivererHome({ currentUser }) {
   const [orders, setOrders] = useState([]);
-  const [filterType, setFilterType] = useState('ORDERINFORMATION_ORDERDATE');
-  const [filterValue, setFilterValue] = useState(null);
+  const [filteredOrders, setFilteredOrders] = useState([]);
+  const [filterType, setFilterType] = useState('ALL');
+  const [filterValue, setFilterValue] = useState('');
 
   // after first rendering of this component:
   useEffect(() => {
     // fetch deliverer's order data from db
-    orderInformationService.getAllForDeliverer(currentUser.DELIVERER_PHONENUMBER)
+    orderService.getAllForDeliverer(currentUser.DELIVERER_PHONENUMBER)
       .then(initialOrders => {
         setOrders(initialOrders);
-        setFilterValue(initialOrders[0][filterType]);
+        setFilteredOrders(initialOrders);
       });
   }, [currentUser]);
 
@@ -24,18 +25,38 @@ function DelivererHome({ currentUser }) {
 
     try {
       // update order status for given order in db
-      await orderInformationService.updateSingleOrderStatus({
+      await orderService.updateSingleOrderStatus({
         orderInfoID: orderID,
         orderStatusID: 3
       });
 
       // retrieve given order from db and update frontend state
-      const updatedOrder = await orderInformationService.getSingle(orderID);
+      const updatedOrder = await orderService.getSingle(orderID);
       setOrders(orders.map(o => o.ORDERINFORMATION_ID === orderID ? updatedOrder : o));
 
       alert(`Order No. ${orderID} status updated!`);
     } catch (error) {
       alert(`Something went wrong, ${orderID} probably doesn't exist.`);
+    }
+  }
+
+  async function filterOrders() {
+    if (filterType === 'ALL') {
+      setFilteredOrders(orders);
+    } else {
+      try {
+        // have to specify table name only for RESTAURANT_NAME b/c of aliases in db
+        const tableName = filterType === 'RESTAURANT_NAME' ? 'Restaurant' : null;
+
+        const newlyFilteredOrders =
+          await orderService.getAllForDelivererConditional(
+            currentUser.DELIVERER_PHONENUMBER,
+            { filterType, filterValue, tableName }
+          );
+        setFilteredOrders(newlyFilteredOrders);
+      } catch (error) {
+        alert('Couldn\'t filter for some reason...');
+      }
     }
   }
 
@@ -48,10 +69,11 @@ function DelivererHome({ currentUser }) {
         setFilterValue={setFilterValue}
         filterType={filterType}
         setFilterType={setFilterType}
+        filterOrders={filterOrders}
       />
 
       <OrderList
-        orders={orders}
+        orders={filteredOrders} // we only want to render filtered orders
         updateDeliveryStatus={updateDeliveryStatus}
       />
     </div>

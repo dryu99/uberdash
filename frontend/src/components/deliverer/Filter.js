@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Filter({ orders, filterValue, setFilterValue, filterType, setFilterType }) {
+function Filter({ orders, filterValue, setFilterValue, filterType, setFilterType, filterOrders }) {
   // event handler for filter type change event
   function handleFilterTypeChange(e) {
     const newFilterType = e.target.value;
@@ -27,15 +27,21 @@ function Filter({ orders, filterValue, setFilterValue, filterType, setFilterType
 
   return (
     <div>
+      <h3>Filter</h3>
       <select value={filterType} onChange={handleFilterTypeChange}>
+        <option value="ALL">All</option>
         <option value="ORDERINFORMATION_ORDERDATE">Order Date</option>
         <option value="CUSTOMER_NAME">Customer Name</option>
         <option value="ORDERINFORMATION_ORDERADDRESS">Customer Address</option>
         <option value="RESTAURANT_NAME">Restaurant Name</option>
         <option value="ORDERSTATUS_NAME">Order Status</option>
       </select>
-      <span>=</span>
-      {filterValueComponent(filterType)}
+      {filterType !== 'ALL' ?
+        <span>={filterValueComponent(filterType)}</span>
+        :
+        null
+      }
+      <button onClick={filterOrders}>Filter</button>
     </div>
   );
 }
