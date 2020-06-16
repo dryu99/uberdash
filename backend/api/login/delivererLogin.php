@@ -3,8 +3,8 @@
   
   $query = "SELECT *
     FROM Deliverer
-    WHERE PhoneNumber = :PhoneNumber
-      AND Password = :Password";
+    WHERE Deliverer_PhoneNumber = :PhoneNumber
+      AND Deliverer_Password = :Password";
 
   login($query);
 ?>
