@@ -3,8 +3,9 @@ import env from '../environment.json';
 
 const baseUrl = `https://www.students.cs.ubc.ca/~${env.cwl}/uberdash/backend/api/order_information`;
 
-async function getAllForDeliverer(delivererPhoneNumber) {
-  const response = await axios.get(`${baseUrl}/getAllForDeliverer.php?DelivererPhoneNumber=${delivererPhoneNumber}`);
+async function getAllForDeliverer(delivererPhoneNumber, column) {
+  const columnParam = column ? `&Column=${column}` : '';
+  const response = await axios.get(`${baseUrl}/getAllForDeliverer.php?DelivererPhoneNumber=${delivererPhoneNumber}${columnParam}`);
   return response.data;
 }
 

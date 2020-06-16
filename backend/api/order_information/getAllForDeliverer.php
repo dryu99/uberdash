@@ -15,8 +15,12 @@
     ? $_GET['DelivererPhoneNumber'] 
     : die(http_response_code(404));
 
+  $select = isset($_GET['Column']) // optional param, if no col is specified select all columns
+    ? $_GET['Column']
+    : '*';
+
   // create and execute query
-  $query = "SELECT *
+  $query = "SELECT DISTINCT $select 
     FROM OrderInformation oi
     INNER JOIN RestaurantLocation rl
       ON oi.Restaurant_Address = rl.Restaurant_Address
