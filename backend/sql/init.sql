@@ -19,8 +19,8 @@ DROP TABLE RestaurantIsOfType CASCADE CONSTRAINTS;
 -- Initilization of tables and granting all privileges (select, delete, update, etc..) to all users (public)
 CREATE TABLE PaymentInfo(
   CreditCardNumber CHAR(16),
-  CreidtCardHolder_Name VARCHAR(20),
-  CreidtCardHolder_Address VARCHAR(30),
+  CreditCardHolder_Name VARCHAR(20),
+  CreditCardHolder_Address VARCHAR(30),
   PRIMARY KEY (CreditCardNumber)
 );
 GRANT SELECT ON PaymentInfo TO public;
@@ -130,7 +130,8 @@ CREATE TABLE OrderContainsMenuItem(
   Restaurant_Address VARCHAR(30),
   MenuItem_Order_Quantity INT,
   PRIMARY KEY (OrderInformation_ID, MenuItem_Name, Restaurant_Address),
-  FOREIGN KEY (OrderInformation_ID) REFERENCES OrderInformation,
+  FOREIGN KEY (OrderInformation_ID) REFERENCES OrderInformation
+    ON DELETE CASCADE,
     -- ON UPDATE CASCADE (Oracle doesn't support UPDATE)
   FOREIGN KEY (MenuItem_Name, Restaurant_Address) REFERENCES MenuItemsMadeAt
     -- ON UPDATE CASCADE (Oracle doesn't support UPDATE)
