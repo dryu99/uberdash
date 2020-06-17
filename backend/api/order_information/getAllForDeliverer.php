@@ -19,6 +19,11 @@
     ? $_GET['Column']
     : '*';
 
+  // have to specify table alias for Restaurant attributes
+  if ($select  === 'RESTAURANT_NAME' || $select  === 'RESTAURANT_ADDRESS') {
+    $select  = "r.$select ";
+  }
+
   // create and execute query
   $query = "SELECT DISTINCT $select 
     FROM OrderInformation oi
