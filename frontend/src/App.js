@@ -24,9 +24,9 @@ function App() {
 
   // conditionally choose user component based on current user type
   let userComponent;
-  if (userType === 'customer') {
+  if (userType === 'customer' || currentUser && currentUser.type === 'customer') {
     userComponent = <CustomerHome currentUser={currentUser}/>;
-  } else if (userType === 'restaurantAdmin') {
+  } else if (userType === 'restaurantAdmin' || currentUser && currentUser.type === 'restaurantAdmin') {
     userComponent = <RestaurantAdminHome currentUser={currentUser}/>;
   } else {
     userComponent = <DelivererHome currentUser={currentUser}/>;
