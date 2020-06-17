@@ -129,7 +129,8 @@ CREATE TABLE OrderContainsMenuItem(
   RestaurantAddress VARCHAR(30),
   Quantity INT,
   PRIMARY KEY (OrderID, MenuItemName, RestaurantAddress),
-  FOREIGN KEY (OrderID) REFERENCES OrderInformation,
+  FOREIGN KEY (OrderID) REFERENCES OrderInformation
+    ON DELETE CASCADE,
     -- ON UPDATE CASCADE (Oracle doesn't support UPDATE)
   FOREIGN KEY (MenuItemName, RestaurantAddress) REFERENCES MenuItemsMadeAt
     -- ON UPDATE CASCADE (Oracle doesn't support UPDATE)
@@ -233,6 +234,8 @@ VALUES (2, TO_DATE('06-3-2020','mm-dd-yyyy'), '1430 Wesbrook Mall', 2, '4700 Kin
 
 INSERT INTO MenuItemsMadeAt
 VALUES ('Patty Melt', '2909 Grandview Hwy', 5.25, 'Eat Me Now', 3);
+INSERT INTO MenuItemsMadeAt
+VALUES ('Hot Cakes', '2909 Grandview Hwy', 4.50, 'Eat Me Fast', 2);
 INSERT INTO MenuItemsMadeAt
 VALUES ('McChicken', '2033 E Hastings St', 5.50, 'Delicious', 3.50);
 INSERT INTO MenuItemsMadeAt

@@ -55,7 +55,7 @@
           OCIBindByName($this->statement, $bv[0], $bv[1]);
       }
 
-      OCIExecute($this->statement);
+      return OCIExecute($this->statement);
     }
 
     /**
