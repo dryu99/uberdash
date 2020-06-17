@@ -5,7 +5,7 @@ import OrderList from './OrderList';
 import GroupCount from './GroupCount';
 import orderService from '../../services/orderInformation';
 
-function DelivererHome({ currentUser }) {
+function DelivererHome({ currentUser, setCurrentUser }) {
   const [orders, setOrders] = useState([]);
 
   // after first rendering of this component:
@@ -21,7 +21,10 @@ function DelivererHome({ currentUser }) {
     <div>
       <h2>Deliverer Home</h2>
 
-      <DelivererInfo currentUser={currentUser}/>
+      <DelivererInfo
+        currentUser={currentUser}
+        setCurrentUser={setCurrentUser}
+      />
 
       <Filter
         setOrders={setOrders}

@@ -25,11 +25,11 @@ function App() {
   // conditional component based on current user type
   function currentUserComponent(currentUser) {
     if (currentUser.type === 'customer') {
-      return <CustomerHome currentUser={currentUser}/>;
+      return <CustomerHome currentUser={currentUser} />;
     } else if (currentUser.type === 'restaurantAdmin') {
       return <RestaurantAdminHome currentUser={currentUser}/>;
     } else {
-      return <DelivererHome currentUser={currentUser}/>;
+      return <DelivererHome currentUser={currentUser} setCurrentUser={setCurrentUser}/>;
     }
   }
 

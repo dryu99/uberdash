@@ -16,7 +16,7 @@ function Filter({ setOrders, currentUser }) {
       const newFilterValueOptions =
         await orderService.getAllForDeliverer(currentUser.DELIVERER_PHONENUMBER, newFilterType);
       setFilterValueOptions(newFilterValueOptions);
-      setFilterValue(newFilterValueOptions[0][newFilterType]);
+      setFilterValue(newFilterValueOptions[0] ? newFilterValueOptions[0][newFilterType] : '');
     } else {
       setFilterValueOptions([]);
       setFilterValue('');
