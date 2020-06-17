@@ -7,8 +7,8 @@ import customerService from '../../services/customers';
 import RestaurantList from '../customer/RestaurantList';
 
 function CustomerHome({currentUser}) {
-  const [currentView, setCurrentView] = useState(null);
-  const [currentViewFiltered, setCurrentViewFiltered] = useState(null);
+  const [currentViewOrder, setCurrentViewOrder] = useState(null);
+  const [currentViewOrderFiltered, setCurrentViewOrderFiltered] = useState(null);
   const [currentViewRestaurant, setCurrentViewRestaurant] = useState(false);
   const [currentViewPayment, setCurrentViewPayment] = useState(null);
   const textInputFilter = createRef(); 
@@ -16,8 +16,8 @@ function CustomerHome({currentUser}) {
 
   async function viewOrders() {
     try {
-      const orders = await customerService.getAllOrders(currentUser.PHONENUMBER);
-      setCurrentView(orders);
+      const orders = await customerService.getAllOrders(currentUser.CUSTOMER_PHONENUMBER);
+      setCurrentViewOrder(orders);
     } catch (error) {
       alert('Could not find orders!');
       console.log(error);
@@ -26,8 +26,8 @@ function CustomerHome({currentUser}) {
 
   async function viewOrdersFiltered() {
     try {
-      const orders = await customerService.getAllOrders(currentUser.PHONENUMBER, textInputFilter.current.value);
-      setCurrentViewFiltered(orders);
+      const orders = await customerService.getAllOrders(currentUser.CUSTOMER_PHONENUMBER, textInputFilter.current.value);
+      setCurrentViewOrderFiltered(orders);
     } catch (error) {
       alert('Could not find order!');
       console.log(error);
@@ -36,7 +36,7 @@ function CustomerHome({currentUser}) {
 
   async function deleteOrder() {
     try {
-      const isDeleted = await customerService.deleteOrder(currentUser.PHONENUMBER, textInputDelete.current.value);
+      const isDeleted = await customerService.deleteOrder(currentUser.CUSTOMER_PHONENUMBER, textInputDelete.current.value);
       if (isDeleted) {
         alert(`Order has been cancelled for Order ID: ${textInputDelete.current.value}!`);
       } else {
@@ -50,7 +50,7 @@ function CustomerHome({currentUser}) {
 
   async function viewPayment() {
     try {
-      const payment = await customerService.getPayment(currentUser.PHONENUMBER);
+      const payment = await customerService.getPayment(currentUser.CUSTOMER_PHONENUMBER);
       setCurrentViewPayment(payment);
     } catch (error) {
       alert('Could not find payment method! :(');
@@ -72,25 +72,29 @@ function CustomerHome({currentUser}) {
         <div className="m-2">
           <Button onClick={viewOrders} variant="outline-dark" size="sm">View All Orders</Button>{' '}
         </div>
-        {currentView ?
+        {currentViewOrder ?
           <Table striped bordered hover>
           <thead>
             <tr>
               <th>Order ID</th>
               <th>Order Date</th>
               <th>Order Address</th>
+              <th>Order Status</th>
               <th>Deliverer Phone Number</th>
+              <th>Restaurant</th>
               <th>Restaurant Address</th>
             </tr>
           </thead>
           <tbody>
-            {currentView.map(order => (
-                <tr key={order.ID}>
-                  <td>{order.ID}</td>
-                  <td>{order.ORDERDATE}</td>
-                  <td>{order.ADDRESS}</td>
-                  <td>{order.DELIVERERPHONENUMBER}</td>
-                  <td>{order.RESTAURANTADDRESS}</td>
+            {currentViewOrder.map(order => (
+                <tr key={order.ORDERINFORMATION_ID}>
+                  <td>{order.ORDERINFORMATION_ID}</td>
+                  <td>{order.ORDERINFORMATION_ORDERDATE}</td>
+                  <td>{order.ORDERINFORMATION_ORDERADDRESS}</td>
+                  <td>{order.ORDERSTATUS_NAME}</td>
+                  <td>{order.DELIVERER_PHONENUMBER}</td>
+                  <td>{order.RESTAURANT_NAME}</td>
+                  <td>{order.RESTAURANT_ADDRESS}</td>
                 </tr>
             ))}
           </tbody>
@@ -100,7 +104,20 @@ function CustomerHome({currentUser}) {
         <div className="m-2">
           <InputGroup className="mb-2">
             <InputGroup.Prepend>
-              <Button onClick={viewOrdersFiltered} variant="outline-dark" size="sm">View Order By ID</Button>
+              <Button 
+                onClick={()=>{
+                  const re = /^[0-9\b]+$/;
+                  const id = textInputFilter.current.value;
+                  if (id != '' && re.test(id)) {
+                    viewOrdersFiltered();
+                  } else {
+                    alert('Please enter a valid Order ID!');
+                  }
+                }}
+                variant="outline-dark" 
+                size="sm">
+                  View Order By ID
+              </Button>
             </InputGroup.Prepend>
             <FormControl 
               ref={textInputFilter} 
@@ -109,25 +126,29 @@ function CustomerHome({currentUser}) {
             />
           </InputGroup>
         </div>
-        {currentViewFiltered ?
+        {currentViewOrderFiltered ?
           <Table striped bordered hover>
           <thead>
             <tr>
               <th>Order ID</th>
               <th>Order Date</th>
               <th>Order Address</th>
+              <th>Order Status</th>
               <th>Deliverer Phone Number</th>
+              <th>Restaurant</th>
               <th>Restaurant Address</th>
             </tr>
           </thead>
           <tbody>
-            {currentViewFiltered.map(order => (
-                <tr key={order.ID}>
-                  <td>{order.ID}</td>
-                  <td>{order.ORDERDATE}</td>
-                  <td>{order.ADDRESS}</td>
-                  <td>{order.DELIVERERPHONENUMBER}</td>
-                  <td>{order.RESTAURANTADDRESS}</td>
+            {currentViewOrderFiltered.map(order => (
+                <tr key={order.ORDERINFORMATION_ID}>
+                  <td>{order.ORDERINFORMATION_ID}</td>
+                  <td>{order.ORDERINFORMATION_ORDERDATE}</td>
+                  <td>{order.ORDERINFORMATION_ORDERADDRESS}</td>
+                  <td>{order.ORDERSTATUS_NAME}</td>
+                  <td>{order.DELIVERER_PHONENUMBER}</td>
+                  <td>{order.RESTAURANT_NAME}</td>
+                  <td>{order.RESTAURANT_ADDRESS}</td>
                 </tr>
             ))}
           </tbody>
@@ -165,8 +186,8 @@ function CustomerHome({currentUser}) {
             {currentViewPayment.map(payment => (
                 <tr key={payment.CREDITCARDNUMBER}>
                   <td>{payment.CREDITCARDNUMBER}</td>
-                  <td>{payment.NAME}</td>
-                  <td>{payment.ADDRESS}</td>
+                  <td>{payment.CREDITCARDHOLDER_NAME}</td>
+                  <td>{payment.CREDITCARDHOLDER_ADDRESS}</td>
                 </tr>
             ))}
           </tbody>

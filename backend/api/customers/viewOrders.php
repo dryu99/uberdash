@@ -26,10 +26,12 @@
 
     if (isset($orderidfilter)) {
         //filter by orderid for orders from the given user
-        $query = "SELECT *
-        FROM OrderInformation
+        $query = "SELECT OrderInformation_ID, OrderInformation_OrderDate, OrderInformation_OrderAddress, OrderStatus_Name, Deliverer_PhoneNumber, OrderInformation.Restaurant_Address, Restaurant_Name
+        FROM OrderInformation, RestaurantLocation, OrderStatus
         WHERE Customer_PhoneNumber = :PhoneNumber
-            AND OrderInformation_ID = :OrderID";
+            AND OrderInformation_ID = :OrderID
+            AND OrderInformation.Restaurant_Address = RestaurantLocation.Restaurant_Address
+            AND OrderInformation.OrderStatus_ID = OrderStatus.OrderStatus_ID";
 
         $bindvars = [
             [":PhoneNumber", $customerphonenumber],
@@ -37,9 +39,11 @@
         ];
     } else {
         //default query for all orders for the given user
-        $query = "SELECT *
-        FROM OrderInformation
-        WHERE Customer_PhoneNumber = :PhoneNumber";
+        $query = "SELECT OrderInformation_ID, OrderInformation_OrderDate, OrderInformation_OrderAddress, OrderStatus_Name, Deliverer_PhoneNumber, OrderInformation.Restaurant_Address, Restaurant_Name
+        FROM OrderInformation, RestaurantLocation, OrderStatus
+        WHERE Customer_PhoneNumber = :PhoneNumber
+            AND OrderInformation.Restaurant_Address = RestaurantLocation.Restaurant_Address
+            AND OrderInformation.OrderStatus_ID = OrderStatus.OrderStatus_ID";
 
         $bindvars = [
             [":PhoneNumber", $customerphonenumber]
