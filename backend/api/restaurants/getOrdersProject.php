@@ -20,25 +20,25 @@
     ? $_GET['Columns'] 
     : '';
 
-    // SELECT OI.OrderDate, OI.ID, MAX(MI.AveragePrepTime) FROM OrderInformation OI 
+    // SELECT OI.OrderDate, OI.ID, Address FROM OrderInformation OI 
     // INNER JOIN OrderContainsMenuItem OM ON OI.ID = OM.OrderID 
     // INNER JOIN MenuItemsMadeAt MI ON MI.RestaurantAddress = OI.RestaurantAddress 
     // INNER JOIN OrderStatus OS ON OI.OrderStatusID = OS.ID 
     // INNER JOIN Customers C ON OI.CustomerPhoneNumber = C.PhoneNumber 
     // INNER JOIN Deliverer D ON OI.DelivererPhoneNumber = D.PhoneNumber 
-    // WHERE OM.RestaurantAddress = '2033 E Hastings St' AND OS.ID = '1' 
-    // GROUP BY OI.OrderDate, OI.ID 
+    // WHERE OM.RestaurantAddress = '2033 E Hastings St'
+    // GROUP BY OI.OrderDate, OI.ID, Address
     // ORDER BY OI.OrderDate DESC;
 
     // Create and execute query 
-    $query = "SELECT OI.OrderDate, OI.ID, MAX(MI.AveragePrepTime) " . $columns_to_select . " FROM OrderInformation OI 
+    $query = "SELECT OI.OrderDate, OI.ID" . $columns_to_select . " FROM OrderInformation OI 
             INNER JOIN OrderContainsMenuItem OM ON OI.ID = OM.OrderID
             INNER JOIN MenuItemsMadeAt MI ON MI.RestaurantAddress = OI.RestaurantAddress
             INNER JOIN OrderStatus OS ON OI.OrderStatusID = OS.ID
             INNER JOIN Customers C ON OI.CustomerPhoneNumber = C.PhoneNumber
             INNER JOIN Deliverer D ON OI.DelivererPhoneNumber = D.PhoneNumber
-            WHERE OM.RestaurantAddress = :RestaurantAddress AND OS.ID = '1'
-            GROUP BY OI.OrderDate, OI.ID " . $columns_to_select . "
+            WHERE OM.RestaurantAddress = :RestaurantAddress
+            GROUP BY OI.OrderDate, OI.ID " . $columns_to_select ."
             ORDER BY OI.OrderDate DESC";
     $bindvars = [[":RestaurantAddress", $restaurant_address]];
 
@@ -46,7 +46,7 @@
 
     // init response variable containing query result
     $response = count($result) > 0 
-    ? $result[0] // query succeeded, specified orders found
+    ? $result // query succeeded, specified orders found
     : die(http_response_code(404)); // query failed, No orders were found
 
     // return response in JSON format

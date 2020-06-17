@@ -40,3 +40,11 @@
 
 
 ?>
+
+SELECT * FROM OrderInformation OI 
+            INNER JOIN OrderContainsMenuItem OM ON OI.ID = OM.OrderID
+            INNER JOIN OrderStatus OS ON OI.OrderStatusID = OS.ID
+            INNER JOIN Customers C ON OI.CustomerPhoneNumber = C.PhoneNumber
+            INNER JOIN Deliverer D ON OI.DelivererPhoneNumber = D.PhoneNumber
+            WHERE OM.RestaurantAddress = '2033 E Hastings St' AND OS.ID = '1'
+            ORDER BY OI.OrderDate DESC
