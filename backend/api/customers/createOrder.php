@@ -17,23 +17,36 @@
     $database = new Database();
     $database->connect();
 
-    $orderid = rand(3, 1000000); // orderid needs to be unique and not null (PK) - generate this in a better way
-    $orderdate = date("m-d-Y"); // date now
-    $orderstatusid = 0; // default 0 - processing
+    $orderid = rand(3, 1000000);
+    $orderdate = date("m-d-Y");
+    $orderstatusid = 0;
 
     $customerphonenumber = isset($_GET['PhoneNumber']) 
     ? $_GET['PhoneNumber']
     : die(http_response_code(404));
+
     $address = isset($_GET['OrderAddress']) 
     ? $_GET['OrderAddress']
-    : die(http_response_code(404)); // from user input
+    : die(http_response_code(404));
     $address = urldecode($address);
+
     $restaurantaddress = isset($_GET['RestaurantAddress']) 
     ? $_GET['RestaurantAddress']
     : die(http_response_code(404));
     $restaurantaddress = urldecode($restaurantaddress);
 
-    $delivererphonenumber = '778-555-6666'; // randomly choose a deliverer
+    // selects deliverer (who have work status 1) with the least amount of orders assigned (which are not complete)
+    // in the case of multiple candidates, just selects the first deliverer in the list
+    $queryDeliverer = "SELECT Deliverer.Deliverer_PhoneNumber, COUNT(*)
+    FROM Deliverer
+    INNER JOIN OrderInformation 
+    ON Deliverer.Deliverer_PhoneNumber = OrderInformation.Deliverer_PhoneNumber
+    WHERE WorkStatus = 1 AND OrderStatus_ID != 2
+    GROUP BY Deliverer.Deliverer_PhoneNumber
+    ORDER BY COUNT(*)";
+    $deliverers = $database->executeFetchAll($queryDeliverer);
+    $deliverer = reset($deliverers);
+    $delivererphonenumber = $deliverer['DELIVERER_PHONENUMBER'];
 
     $query = "INSERT INTO OrderInformation
     VALUES (:OrderID, TO_DATE(:OrderDate, 'mm-dd-yyyy'), :Address, :OrderStatusID, :RestaurantAddress, :CustomerPhoneNumber, :DelivererPhoneNumber)";
@@ -48,7 +61,6 @@
         [":DelivererPhoneNumber", $delivererphonenumber]
     ];
 
-    // double check the return from db->execute so that error handling can be done
     $result = $database->execute($query, $bindvars);
 
     $orderInfo = json_decode(file_get_contents('php://input'));
@@ -56,7 +68,6 @@
     $query = "INSERT INTO OrderContainsMenuItem
     VALUES (:OrderID, :ItemName, :RestaurantAddress, :Quantity)";
 
-    // optimize if there is time
     for ($i=0; $i<count($orderInfo); $i++) {
         $bindvars = [
             [":OrderID", $orderid],
