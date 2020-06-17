@@ -16,7 +16,7 @@ function MenuItemList({currentUser, restaurantAddress}) {
             setCurrentMenuItemView(menuItems);
             const selectedItems = [];
             for (let i = 0; i < menuItems.length; i++) {
-                const itemName = menuItems[i].MENUITEMNAME;
+                const itemName = menuItems[i].MENUITEM_NAME;
                 const itemObject = {};
                 itemObject.itemName = itemName;
                 itemObject.itemState = false;
@@ -56,7 +56,7 @@ function MenuItemList({currentUser, restaurantAddress}) {
         <OrderSubmit currentUser={currentUser} restaurantAddress={restaurantAddress} orderedItems={orderedItems}></OrderSubmit>
         :
         <div>
-        Menu Item List
+        Select Menu Item(s)
         { currentMenuItemView && checked ?
         <div>
             <Table striped bordered hover>
@@ -74,14 +74,14 @@ function MenuItemList({currentUser, restaurantAddress}) {
             </thead>
             <tbody>
                 {currentMenuItemView.map(menuItem => (
-                    <tr key={menuItem.MENUITEMNAME}>
+                    <tr key={menuItem.MENUITEM_NAME}>
                     <th>
                         <input
                         type="checkbox" 
-                        checked={checked[menuItem.MENUITEMNAME]}
+                        checked={checked[menuItem.MENUITEM_NAME]}
                         onChange={event => {
                             let isChecked = event.target.checked;
-                            const itemName = menuItem.MENUITEMNAME;
+                            const itemName = menuItem.MENUITEM_NAME;
                             updateOrderedItems(itemName, isChecked);
                             setChecked(checked.map(item => {
                                 if (item.itemName == itemName) {
@@ -90,14 +90,14 @@ function MenuItemList({currentUser, restaurantAddress}) {
                                 return item;
                             }));
                         }}
-                        value={menuItem.MENUITEMNAME}
+                        value={menuItem.MENUITEM_NAME}
                         >
                         </input>
                     </th>
-                    <td>{menuItem.MENUITEMNAME}</td>
-                    <td>{menuItem.COST}</td>
-                    <td>{menuItem.DESCRIPTION}</td>
-                    <td>{menuItem.AVERAGEPREPTIME}</td>
+                    <td>{menuItem.MENUITEM_NAME}</td>
+                    <td>{menuItem.MENUITEM_COST}</td>
+                    <td>{menuItem.MENUITEM_DESCRIPTION}</td>
+                    <td>{menuItem.MENUITEM_AVERAGEPREPTIME}</td>
                     </tr>
                 ))}
             </tbody>

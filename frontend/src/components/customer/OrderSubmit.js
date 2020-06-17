@@ -12,7 +12,7 @@ function OrderSubmit({currentUser, restaurantAddress, orderedItems}) {
 
     async function submitOrder() {
         try {
-            const isOrdered = await customerService.createOrder(currentUser.PHONENUMBER, textInput.current.value, restaurantAddress, orderInfo);
+            const isOrdered = await customerService.createOrder(currentUser.CUSTOMER_PHONENUMBER, textInput.current.value, restaurantAddress, orderInfo);
             if (isOrdered) {
                 alert('Order Submitted!')
             } else {
@@ -99,7 +99,7 @@ function OrderSubmit({currentUser, restaurantAddress, orderedItems}) {
                 <FormControl 
                     ref={textInput} 
                     type="text"
-                    placeholder="Enter Order Address Here"
+                    placeholder="Enter Order Address Here And Click To Confirm :)"
                 />
             </InputGroup>
             { orderAddress ?

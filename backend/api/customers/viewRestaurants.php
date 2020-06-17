@@ -23,10 +23,8 @@
     ON Restaurant.Restaurant_Name = RestaurantLocation.Restaurant_Name";
 
     $result = $database->executeFetchAll($query);
-
-    $response = $result;
     
-    echo json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
+    echo json_encode($result, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
 
     $database->disconnect();
 ?>

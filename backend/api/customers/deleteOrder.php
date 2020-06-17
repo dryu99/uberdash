@@ -33,7 +33,6 @@
         [":OrderID", $orderid]
     ];
 
-    // double check the return from db->execute so that error handling can be done
     $result = $database->execute($query, $bindvars);
 
     echo $result;

@@ -22,7 +22,7 @@ function RestaurantList({currentUser}) {
     }, []);
 
     function menuItemComponentView(restaurant) {
-        setCurrentViewMenuItem(restaurant.ADDRESS);
+        setCurrentViewMenuItem(restaurant.RESTAURANT_ADDRESS);
     }
 
     return (
@@ -31,7 +31,7 @@ function RestaurantList({currentUser}) {
             <MenuItemList currentUser={currentUser} restaurantAddress={currentViewMenuItem}></MenuItemList>
             :
             <div>
-            Restaurant List
+            Select Restaurant
             {currentRestaurantView ?
                 <Table striped bordered hover>
                     <thead>
@@ -43,10 +43,10 @@ function RestaurantList({currentUser}) {
                     </thead>
                     <tbody>
                     {currentRestaurantView.map(restaurant => (
-                        <tr key={restaurant.NAME} onClick={() => menuItemComponentView(restaurant)}>
-                            <td>{restaurant.NAME}</td>
-                            <td>{restaurant.DESCRIPTION}</td>
-                            <td>{restaurant.ADDRESS}</td>
+                        <tr key={restaurant.RESTAURANT_NAME} onClick={() => menuItemComponentView(restaurant)}>
+                            <td>{restaurant.RESTAURANT_NAME}</td>
+                            <td>{restaurant.RESTAURANT_DESCRIPTION}</td>
+                            <td>{restaurant.RESTAURANT_ADDRESS}</td>
                         </tr>
                     ))}
                     </tbody>
