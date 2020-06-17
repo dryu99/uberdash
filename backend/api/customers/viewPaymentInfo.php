@@ -21,7 +21,7 @@
     ? $_GET['PhoneNumber']
     : die(http_response_code(404));
     
-    $query = "SELECT PaymentInfo.CreditCardNumber, PaymentInfo.CreidtCardHolder_Name, PaymentInfo.CreidtCardHolder_Address
+    $query = "SELECT PaymentInfo.CreditCardNumber, PaymentInfo.CreditCardHolder_Name, PaymentInfo.CreditCardHolder_Address
     FROM Customers
     INNER JOIN PaymentInfo
     ON Customers.CreditCardNumber = PaymentInfo.CreditCardNumber
