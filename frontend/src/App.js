@@ -5,7 +5,7 @@ import RestaurantAdminHome from './components/restaurant-admin/RestaurantAdminHo
 import DelivererHome from './components/deliverer/DelivererHome';
 
 function App() {
-  const [userType, setUserType] = useState('customer');
+  const [userType, setUserType] = useState();
   const [currentUser, setCurrentUser] = useState(null);
 
   // check if user data is available in cache
