@@ -3,8 +3,8 @@
   
   $query = "SELECT *
     FROM RestaurantAdmin
-    WHERE PhoneNumber = :PhoneNumber
-      AND Password = :Password";
+    WHERE RestaurantAdmin_PhoneNumber = :PhoneNumber
+      AND RestaurantAdmin_Password = :Password";
 
   login($query);
 ?>
