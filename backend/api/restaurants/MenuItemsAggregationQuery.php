@@ -16,12 +16,14 @@
        : die(http_response_code(404));
 
     // Create and execute query 
-    $query = "SELECT OI.ID FROM OrderInformation OI 
+    $query = "SELECT OI.OrderInformation_ID FROM OrderInformation OI 
             INNER JOIN OrderContainsMenuItem OM ON OI.ID = OM.OrderID
+            INNER JOIN MenuItemsMadeAt MA ON MA.RestaurantAddress = OI.RestaurantAddress AND MA.MenuItemName = OM.MenuItemName
             INNER JOIN OrderStatus OS ON OI.OrderStatusID = OS.ID
             INNER JOIN Customers C ON OI.CustomerPhoneNumber = C.PhoneNumber
             INNER JOIN Deliverer D ON OI.DelivererPhoneNumber = D.PhoneNumber
             WHERE OM.RestaurantAddress = :RestaurantAddress AND OS.ID = '1'
+            GROUP BY OI.ID, OrderDate, OrderStatusID
             ORDER BY OI.OrderDate DESC";
     $bindvars = [[":RestaurantAddress", $restaurant_address]];
 

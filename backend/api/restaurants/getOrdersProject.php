@@ -30,16 +30,17 @@
     // GROUP BY OI.OrderDate, OI.ID, Address
     // ORDER BY OI.OrderDate DESC;
 
+
     // Create and execute query 
-    $query = "SELECT OI.OrderDate, OI.ID" . $columns_to_select . " FROM OrderInformation OI 
-            INNER JOIN OrderContainsMenuItem OM ON OI.ID = OM.OrderID
-            INNER JOIN MenuItemsMadeAt MI ON MI.RestaurantAddress = OI.RestaurantAddress
-            INNER JOIN OrderStatus OS ON OI.OrderStatusID = OS.ID
-            INNER JOIN Customers C ON OI.CustomerPhoneNumber = C.PhoneNumber
-            INNER JOIN Deliverer D ON OI.DelivererPhoneNumber = D.PhoneNumber
-            WHERE OM.RestaurantAddress = :RestaurantAddress
-            GROUP BY OI.OrderDate, OI.ID " . $columns_to_select ."
-            ORDER BY OI.OrderDate DESC";
+    $query = "SELECT OI.OrderInformation_OrderDate, OI.OrderInformation_ID". $columns_to_select .", MAX(MI.MenuItem_AveragePrepTime) FROM OrderInformation OI 
+            INNER JOIN OrderContainsMenuItem OM ON OI.OrderInformation_ID = OM.OrderInformation_ID
+            LEFT JOIN MenuItemsMadeAt MI ON MI.Restaurant_Address = OI.Restaurant_Address AND MI.MenuItem_Name = OM.MenuItem_Name
+            INNER JOIN OrderStatus OS ON OI.OrderStatus_ID = OS.OrderStatus_ID
+            INNER JOIN Customers C ON OI.Customer_PhoneNumber = C.Customer_PhoneNumber
+            INNER JOIN Deliverer D ON OI.Deliverer_PhoneNumber = D.Deliverer_PhoneNumber
+            WHERE OM.Restaurant_Address = :RestaurantAddress
+            GROUP BY OI.OrderInformation_OrderDate, OI.OrderInformation_ID " . $columns_to_select ."
+            ORDER BY MAX(MI.MenuItem_AveragePrepTime) DESC";
     $bindvars = [[":RestaurantAddress", $restaurant_address]];
 
     $result = $database->executeFetchAll($query, $bindvars);
