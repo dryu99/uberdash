@@ -19,153 +19,154 @@ DROP TABLE RestaurantIsOfType CASCADE CONSTRAINTS;
 -- Initilization of tables and granting all privileges (select, delete, update, etc..) to all users (public)
 CREATE TABLE PaymentInfo(
   CreditCardNumber CHAR(16),
-  Name VARCHAR(20),
-  Address VARCHAR(30),
+  CreditCardHolder_Name VARCHAR(20),
+  CreditCardHolder_Address VARCHAR(30),
   PRIMARY KEY (CreditCardNumber)
 );
 GRANT SELECT ON PaymentInfo TO public;
 
-CREATE TABLE Customers( 
-  PhoneNumber VARCHAR(20),
-  EmailAddress VARCHAR(50) UNIQUE,
-  Password VARCHAR(64),
+CREATE TABLE Customers(
+  Customer_PhoneNumber VARCHAR(20),  
+  Customer_Name VARCHAR(20),
+  Customer_EmailAddress VARCHAR(50) UNIQUE,
+  Customer_Password VARCHAR(64),
   CreditCardNumber CHAR(16) NOT NULL, 
-  PRIMARY KEY (PhoneNumber),
+  PRIMARY KEY (Customer_PhoneNumber),
   FOREIGN KEY (CreditCardNumber) REFERENCES PaymentInfo
     -- ON UPDATE CASCADE (Oracle doesn't support UPDATE)
 );
 GRANT SELECT ON Customers TO public;
 
 CREATE TABLE Restaurant(
-  Name VARCHAR(30),
-  Description VARCHAR(40),
-  PRIMARY KEY (Name)
+  Restaurant_Name VARCHAR(30),
+  Restaurant_Description VARCHAR(40),
+  PRIMARY KEY (Restaurant_Name)
 );
 GRANT ALL PRIVILEGES ON Restaurant TO public
 
 CREATE TABLE RestaurantLocation(
-  Address VARCHAR(30),
+  Restaurant_Address VARCHAR(30),
   OpenStatus SMALLINT,
-  Name VARCHAR(30),
-  PRIMARY KEY (Address),
-  FOREIGN KEY (Name) REFERENCES Restaurant
+  Restaurant_Name VARCHAR(30),
+  PRIMARY KEY (Restaurant_Address),
+  FOREIGN KEY (Restaurant_Name) REFERENCES Restaurant
     -- ON UPDATE CASCADE (Oracle doesn't support UPDATE)
 );
 GRANT ALL PRIVILEGES ON RestaurantLocation TO public
 
 CREATE TABLE RestaurantAdmin(
-  PhoneNumber VARCHAR(20),
-  EmailAddress VARCHAR(50) UNIQUE,
-  Password VARCHAR(64),
-  RestaurantAddress VARCHAR(30) NOT NULL,
-  PRIMARY KEY (PhoneNumber),
-  FOREIGN KEY (RestaurantAddress) REFERENCES RestaurantLocation
+  RestaurantAdmin_PhoneNumber VARCHAR(20),
+  RestaurantAdmin_EmailAddress VARCHAR(50) UNIQUE,
+  RestaurantAdmin_Password VARCHAR(64),
+  Restaurant_Address VARCHAR(30) NOT NULL,
+  PRIMARY KEY (RestaurantAdmin_PhoneNumber),
+  FOREIGN KEY (Restaurant_Address) REFERENCES RestaurantLocation
     -- ON UPDATE CASCADE (Oracle doesn't support UPDATE)
 );
 GRANT ALL PRIVILEGES ON RestaurantAdmin TO public
 
 CREATE TABLE Vehicle(
-  VehicleLicensePlateNumber CHAR(6),
-  VehicleModel VARCHAR(20),
-  PRIMARY KEY (VehicleLicensePlateNumber)
+  Vehicle_LicensePlateNumber CHAR(6),
+  Vehicle_Model VARCHAR(20),
+  PRIMARY KEY (Vehicle_LicensePlateNumber)
 );
 GRANT ALL PRIVILEGES ON Vehicle TO public
 
 CREATE TABLE Deliverer(
-  Name VARCHAR(20),
-  PhoneNumber VARCHAR(20),
-  Password VARCHAR(64),
-  EmailAddress VARCHAR(50) UNIQUE,
+  Deliverer_Name VARCHAR(20),
+  Deliverer_PhoneNumber VARCHAR(20),
+  Deliverer_Password VARCHAR(64),
+  Deliverer_EmailAddress VARCHAR(50) UNIQUE,
   WorkStatus SMALLINT,
-  VehicleLicensePlateNumber CHAR(6),
-  PRIMARY KEY (PhoneNumber),
-  FOREIGN KEY (VehicleLicensePlateNumber) REFERENCES Vehicle
+  Vehicle_LicensePlateNumber CHAR(6),
+  PRIMARY KEY (Deliverer_PhoneNumber),
+  FOREIGN KEY (Vehicle_LicensePlateNumber) REFERENCES Vehicle
     -- ON UPDATE CASCADE (Oracle doesn't support UPDATE)
 );
 GRANT ALL PRIVILEGES ON Deliverer TO public
 
 CREATE TABLE OrderStatus(
-  ID INT,
-  Name VARCHAR(30),
-  PRIMARY KEY (ID)
+  OrderStatus_ID INT,
+  OrderStatus_Name VARCHAR(30),
+  PRIMARY KEY (OrderStatus_ID)
 );
 GRANT ALL PRIVILEGES ON OrderStatus TO public
 
 CREATE TABLE OrderInformation(
-  ID INT,
-  OrderDate DATE,
-  Address VARCHAR(30),
-  OrderStatusID INT NOT NULL,
-  RestaurantAddress VARCHAR(30) NOT NULL,
-  CustomerPhoneNumber VARCHAR(20) NOT NULL,
-  DelivererPhoneNumber VARCHAR(20) NOT NULL,
-  PRIMARY KEY (ID),
-  FOREIGN KEY (OrderStatusID) REFERENCES OrderStatus,
+  OrderInformation_ID INT,
+  OrderInformation_OrderDate DATE,
+  OrderInformation_OrderAddress VARCHAR(30),
+  OrderStatus_ID INT NOT NULL,
+  Restaurant_Address VARCHAR(30) NOT NULL,
+  Customer_PhoneNumber VARCHAR(20) NOT NULL,
+  Deliverer_PhoneNumber VARCHAR(20) NOT NULL,
+  PRIMARY KEY (OrderInformation_ID),
+  FOREIGN KEY (OrderStatus_ID) REFERENCES OrderStatus,
     -- ON UPDATE CASCADE (Oracle doesn't support UPDATE)
-  FOREIGN KEY (RestaurantAddress) REFERENCES RestaurantLocation,
+  FOREIGN KEY (Restaurant_Address) REFERENCES RestaurantLocation,
     -- ON UPDATE CASCADE (Oracle doesn't support UPDATE)
-  FOREIGN KEY (CustomerPhoneNumber) REFERENCES Customers,
+  FOREIGN KEY (Customer_PhoneNumber) REFERENCES Customers,
     -- ON UPDATE CASCADE (Oracle doesn't support UPDATE)
-  FOREIGN KEY (DelivererPhoneNumber) REFERENCES Deliverer
+  FOREIGN KEY (Deliverer_PhoneNumber) REFERENCES Deliverer
     -- ON UPDATE CASCADE (Oracle doesn't support UPDATE)
 );
 GRANT ALL PRIVILEGES ON OrderInformation TO public
 
 CREATE TABLE MenuItemsMadeAt(
-  MenuItemName VARCHAR(30),
-  RestaurantAddress VARCHAR(30),
-  Cost FLOAT,
-  Description VARCHAR(40),
-  AveragePrepTime FLOAT,
-  PRIMARY KEY (MenuItemName, RestaurantAddress),
-  FOREIGN KEY (RestaurantAddress) REFERENCES RestaurantLocation
+  MenuItem_Name VARCHAR(30),
+  Restaurant_Address VARCHAR(30),
+  MenuItem_Cost FLOAT,
+  MenuItem_Description VARCHAR(40),
+  MenuItem_AveragePrepTime FLOAT,
+  PRIMARY KEY (MenuItem_Name, Restaurant_Address),
+  FOREIGN KEY (Restaurant_Address) REFERENCES RestaurantLocation
     -- ON UPDATE CASCADE (Oracle doesn't support UPDATE)
 );
 GRANT ALL PRIVILEGES ON MenuItemsMadeAt TO public
 
 CREATE TABLE OrderContainsMenuItem(
-  OrderID INT,
-  MenuItemName VARCHAR(30),
-  RestaurantAddress VARCHAR(30),
-  Quantity INT,
-  PRIMARY KEY (OrderID, MenuItemName, RestaurantAddress),
-  FOREIGN KEY (OrderID) REFERENCES OrderInformation,
+  OrderInformation_ID INT,
+  MenuItem_Name VARCHAR(30),
+  Restaurant_Address VARCHAR(30),
+  MenuItem_Order_Quantity INT,
+  PRIMARY KEY (OrderInformation_ID, MenuItem_Name, Restaurant_Address),
+  FOREIGN KEY (OrderInformation_ID) REFERENCES OrderInformation
+    ON DELETE CASCADE,
     -- ON UPDATE CASCADE (Oracle doesn't support UPDATE)
-  FOREIGN KEY (MenuItemName, RestaurantAddress) REFERENCES MenuItemsMadeAt
+  FOREIGN KEY (MenuItem_Name, Restaurant_Address) REFERENCES MenuItemsMadeAt
     -- ON UPDATE CASCADE (Oracle doesn't support UPDATE)
 );
 GRANT ALL PRIVILEGES ON OrderContainsMenuItem TO public
 
 CREATE TABLE FoodType(
-  ID INT,
-  Name VARCHAR(30),
-  PRIMARY KEY (ID)
+  FoodType_ID INT,
+  FoodType_Name VARCHAR(30),
+  PRIMARY KEY (FoodType_ID)
 );
 GRANT ALL PRIVILEGES ON FoodType TO public
 
 CREATE TABLE MenuItemIsOfType(
-  MenuItemName VARCHAR(30),
-  RestaurantAddress VARCHAR(30),
-  FoodTypeID INT,
-  PRIMARY KEY (MenuItemName, RestaurantAddress, FoodTypeID),
-  FOREIGN KEY (MenuItemName, RestaurantAddress) REFERENCES MenuItemsMadeAt,
+  MenuItem_Name VARCHAR(30),
+  Restaurant_Address VARCHAR(30),
+  FoodType_ID INT,
+  PRIMARY KEY (MenuItem_Name, Restaurant_Address, FoodType_ID),
+  FOREIGN KEY (MenuItem_Name, Restaurant_Address) REFERENCES MenuItemsMadeAt,
     -- ON UPDATE CASCADE (Oracle doesn't support UPDATE)
-  FOREIGN KEY (FoodTypeID) REFERENCES FoodType
+  FOREIGN KEY (FoodType_ID) REFERENCES FoodType
     -- ON UPDATE CASCADE (Oracle doesn't support UPDATE)
 );
 GRANT ALL PRIVILEGES ON MenuItemIsOfType TO public
 
 CREATE TABLE RestaurantIsOfType(
-  RestaurantName VARCHAR(30),
-  FoodTypeID INT,
-  PRIMARY KEY (RestaurantName, FoodTypeID),
-  FOREIGN KEY (RestaurantName) REFERENCES Restaurant,
+  Restaurant_Name VARCHAR(30),
+  FoodType_ID INT,
+  PRIMARY KEY (Restaurant_Name, FoodType_ID),
+  FOREIGN KEY (Restaurant_Name) REFERENCES Restaurant,
     -- ON UPDATE CASCADE (Oracle doesn't support UPDATE)
-  FOREIGN KEY (FoodTypeID) REFERENCES FoodType
+  FOREIGN KEY (FoodType_ID) REFERENCES FoodType
     -- ON UPDATE CASCADE (Oracle doesn't support UPDATE)
 );
 GRANT ALL PRIVILEGES ON RestaurantIsOfType TO public
-
 
 -- Initialization of table instances / tuples
 INSERT INTO PaymentInfo 
@@ -176,11 +177,11 @@ INSERT INTO PaymentInfo
 VALUES ('910111213', 'Daniel Ryu', '1430 Wesbrook Mall, V6X 5I1');
 
 INSERT INTO Customers
-VALUES ('1', 'rujjiryu99@gmail.com', 'password', '12345678');
+VALUES ('1', 'Daniel Brother', 'rujjiryu99@gmail.com', 'password', '12345678');
 INSERT INTO Customers 
-VALUES ('2', 'ChristopherTse98@gmail.com', 'password', '87654321');
+VALUES ('2', 'Chris Tse', 'ChristopherTse98@gmail.com', 'password', '87654321');
 INSERT INTO Customers 
-VALUES ('3', 'mingxin.gong2@gmail.com', 'password', '12345678');
+VALUES ('3', 'Mingxin Gong', 'mingxin.gong2@gmail.com', 'password', '12345678');
 
 INSERT INTO Restaurant
 VALUES ('Five Guys', 'Home of the Burger Family');
@@ -230,11 +231,23 @@ INSERT INTO OrderInformation
 VALUES (1, TO_DATE('06-2-2020','mm-dd-yyyy'), '1234 10th Avenue, V6Y 5I9', 1, '2033 E Hastings St', '2', '778-666-7777');
 INSERT INTO OrderInformation
 VALUES (2, TO_DATE('06-3-2020','mm-dd-yyyy'), '1430 Wesbrook Mall', 2, '4700 Kingsway Unit 1200e', '3', '778-777-8888');
+INSERT INTO OrderInformation
+VALUES (3, TO_DATE('06-4-2020','mm-dd-yyyy'), '1430 Wesbrook Mall', 1, '2033 E Hastings St', '3', '778-666-7777');
+INSERT INTO OrderInformation
+VALUES (4, TO_DATE('06-5-2020','mm-dd-yyyy'), '1430 Wesbrook Mall', 1, '2033 E Hastings St', '3', '778-666-7777');
+INSERT INTO OrderInformation
+VALUES (5, TO_DATE('06-6-2020','mm-dd-yyyy'), '1430 Wesbrook Mall', 2, '2033 E Hastings St', '3', '778-666-7777');
 
 INSERT INTO MenuItemsMadeAt
 VALUES ('Patty Melt', '2909 Grandview Hwy', 5.25, 'Eat Me Now', 3);
 INSERT INTO MenuItemsMadeAt
+VALUES ('Hot Cakes', '2909 Grandview Hwy', 4.50, 'Eat Me Fast', 2);
+INSERT INTO MenuItemsMadeAt
 VALUES ('McChicken', '2033 E Hastings St', 5.50, 'Delicious', 3.50);
+INSERT INTO MenuItemsMadeAt
+VALUES ('Filet-o-Fish', '2033 E Hastings St', 3.50, 'Awesome', 5.50);
+INSERT INTO MenuItemsMadeAt
+VALUES ('Big Mac', '2033 E Hastings St', 6.50, 'The classic', 1.50);
 INSERT INTO MenuItemsMadeAt
 VALUES ('Whopper', '4700 Kingsway Unit 1200e', 3.75, 'Grilled', 2);
 
@@ -242,6 +255,18 @@ INSERT INTO OrderContainsMenuItem
 VALUES (0, 'Patty Melt', '2909 Grandview Hwy', 2);
 INSERT INTO OrderContainsMenuItem
 VALUES (1, 'McChicken', '2033 E Hastings St', 5);
+INSERT INTO OrderContainsMenuItem
+VALUES (1, 'Filet-o-Fish', '2033 E Hastings St', 2);
+INSERT INTO OrderContainsMenuItem
+VALUES (1, 'Big Mac', '2033 E Hastings St', 1);
+INSERT INTO OrderContainsMenuItem
+VALUES (3, 'Whopper', '4700 Kingsway Unit 1200e', 3);
+INSERT INTO OrderContainsMenuItem
+VALUES (3, 'Big Mac', '2033 E Hastings St', 3);
+INSERT INTO OrderContainsMenuItem
+VALUES (4, 'McChicken', '2033 E Hastings St', 1);
+INSERT INTO OrderContainsMenuItem
+VALUES (5, 'Filet-o-Fish', '2033 E Hastings St', 3);
 INSERT INTO OrderContainsMenuItem
 VALUES (2, 'Whopper', '4700 Kingsway Unit 1200e', 3);
 

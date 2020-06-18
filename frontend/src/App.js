@@ -12,7 +12,9 @@ function App() {
   useEffect(() => {
     const loggedInUserJSON = window.localStorage.getItem('loggedInUser');
     if (loggedInUserJSON) {
-      setCurrentUser(JSON.parse(loggedInUserJSON));
+      const user = JSON.parse(loggedInUserJSON);
+      setCurrentUser(user);
+      setUserType(user.type);
     }
   }, []);
 
@@ -29,7 +31,7 @@ function App() {
   } else if (userType === 'restaurantAdmin') {
     userComponent = <RestaurantAdminHome currentUser={currentUser}/>;
   } else {
-    userComponent = <DelivererHome currentUser={currentUser}/>;
+    userComponent = <DelivererHome currentUser={currentUser} setCurrentUser={setCurrentUser}/>;
   }
 
   return (
@@ -37,7 +39,6 @@ function App() {
       <h1>UberDash</h1>
       {currentUser ?
         <div>
-          <h3>Current user: {currentUser.NAME}</h3>
           {userComponent}
           <button onClick={handleLogout}>logout</button>
         </div>
