@@ -21,7 +21,7 @@
     WHERE NOT EXISTS (
       (SELECT m.MenuItem_Name 
        FROM MenuItemsMadeAt m 
-       WHERE m.Restaurant_Address = '2033 E Hastings St')
+       WHERE m.Restaurant_Address = :RestaurantAddress)
       MINUS
       (SELECT m2.MenuItem_Name
        FROM OrderInformation oi

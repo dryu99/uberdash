@@ -41,11 +41,13 @@ class RestaurantAdminHome extends React.Component {
 
 
   async handleFindBestCustomers() {
-    let td = await restaurantAdmin.getBestCustomer(this.props.currentUser.RESTAURANT_ADDRESS).catch((error) => {
+    try {
+      let td = await restaurantAdmin.getBestCustomer(this.props.currentUser.RESTAURANT_ADDRESS);
+      this.setState({ tableData:td, orders: 0 });
+    } catch (error) {
       console.log(error);
-      alert('No Customers have ordered all items from your restaurant :(');
-    });
-    this.setState({ tableData:td, orders: 0 });
+      alert('No Customers have ordered all items from your restaurant 😞');
+    }
   }
 
   render() {
