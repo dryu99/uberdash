@@ -11,6 +11,10 @@ function DelivererInfo({ currentUser, setCurrentUser }) {
   const [licensePlate, setLicensePlate] = useState(currentUser.VEHICLE_LICENSEPLATENUMBER);
   const [vehicleModel, setVehicleModel] = useState(currentUser.VEHICLE_MODEL);
 
+  const style = {
+    marginBottom: 20
+  };
+
   function handleUpdateCancel() {
     setEditingState(false);
     setName(currentUser.DELIVERER_NAME);
@@ -48,12 +52,11 @@ function DelivererInfo({ currentUser, setCurrentUser }) {
       } catch (error) {
         alert('Something went wrong, I hope this doesn\'t happen during the demo');
       }
-
     }
   }
 
   return (
-    <div>
+    <div style={style}>
       <h3>User Info</h3>
       {!editingState ?
         <div>
@@ -84,14 +87,6 @@ function DelivererInfo({ currentUser, setCurrentUser }) {
             <b>Email: </b>
             <input value={email} onChange={({ target }) => setEmail(target.value)}></input>
           </div>
-          {/* <div>
-            <b>Vehicle License Plate #: </b>
-            <input value={licensePlate} onChange={({ target }) => setLicensePlate(target.value)}></input>
-          </div>
-          <div>
-            <b>Vehicle Model: </b>
-            <input value={vehicleModel} onChange={({ target }) => setVehicleModel(target.value)}></input>
-          </div> */}
           <button type="submit">Submit</button>
           <button onClick={handleUpdateCancel}>Cancel</button>
         </form>

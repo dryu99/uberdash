@@ -6,6 +6,10 @@ function Filter({ setOrders, currentUser }) {
   const [filterValue, setFilterValue] = useState('');
   const [filterValueOptions, setFilterValueOptions] = useState([]);
 
+  const style = {
+    marginBottom: 20
+  };
+
   // event handler for filter type change event
   async function handleFilterTypeChange(e) {
     const newFilterType = e.target.value;
@@ -48,7 +52,7 @@ function Filter({ setOrders, currentUser }) {
   }
 
   return (
-    <div>
+    <div style={style}>
       <h3>Filter</h3>
       <select value={filterType} onChange={handleFilterTypeChange}>
         <option value="ALL">All</option>

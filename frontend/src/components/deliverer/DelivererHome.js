@@ -20,7 +20,7 @@ function DelivererHome({ currentUser, setCurrentUser }) {
   return (
     <div>
       <h2>Deliverer Home</h2>
-      <h3>Current user: {currentUser.DELIVERER_NAME}</h3>
+      <h4>Current user: {currentUser.DELIVERER_NAME}</h4>
 
       <DelivererInfo
         currentUser={currentUser}

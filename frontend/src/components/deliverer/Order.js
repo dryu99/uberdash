@@ -17,8 +17,10 @@ function Order({ order, updateDeliveryStatus }) {
       <div><b>Restaurant Name:</b> {order.RESTAURANT_NAME}</div>
       <div><b>Restaurant Address:</b> {order.RESTAURANT_ADDRESS}</div>
       <div><b>Order Status:</b> {order.ORDERSTATUS_NAME}</div>
-      {order.ORDERSTATUS_ID === 2 ?
-        <button onClick={() => updateDeliveryStatus(order)}>Update Status</button>
+      {order.ORDERSTATUS_ID === 1 || order.ORDERSTATUS_ID === 2 ?
+        <button onClick={() => updateDeliveryStatus(order, order.ORDERSTATUS_ID + 1)}>
+          {order.ORDERSTATUS_ID === 1 ? 'Update Status to "Delivering"' : 'Update Status to "Completed"'}
+        </button>
         :
         null
       }
