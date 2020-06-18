@@ -8,14 +8,12 @@ class RestaurantAdminHome extends React.Component {
     super(props);
     this.state = {
       columns: '',
-      tableData: []
+      aggregate: '',
+      tableData: [],
+      orders: 1
     }
     this.handleFields = this.handleFields.bind(this);
     this.handleFindBestCustomers = this.handleFindBestCustomers.bind(this);
-  }
-
-  getOrders() {
-
   }
 
   async handleFields(checkboxes) {
@@ -35,25 +33,29 @@ class RestaurantAdminHome extends React.Component {
     // td = JSON.stringify(td);
     // td = '[' + td + ']';
     // td = JSON.parse(td);
-    this.setState({tableData: td});
+    this.setState({tableData: td, orders: 1});
     console.log(this.state.columns);
     // console.log(this.state.tableData);
     // console.log(td);
   }
+
 
   async handleFindBestCustomers() {
     let td = await restaurantAdmin.getBestCustomer(this.props.currentUser.RESTAURANTADDRESS).catch((error) => {
       console.log(error);
       alert("No Customers have ordered all items from your restaurant :(");
     });
-    this.setState({tableData:td});
+    this.setState({tableData:td, orders: 0});
   }
 
   render() {
     return (
        <div>
-    <SelectionForm handleFields = {this.handleFields}></SelectionForm>
+    <SelectionForm 
+      handleFields = {this.handleFields}
+      options = {["OrderStatus_Name", "Customer Phone Number", "Deliverer Phone Number"]}></SelectionForm>
     <button onClick={this.handleFindBestCustomers}>Find Best Customers</button>
+    {this.state.orders === 1 ? <h2>Here are the orders for your restaurant.</h2> : <h2>Here are all the customers who have purchased every item from your restaurant.</h2>}
     {this.state.tableData[0]? <OrderTable data={this.state.tableData}></OrderTable> : <span></span>}
     
       </div>

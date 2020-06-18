@@ -6,7 +6,7 @@ const OPTIONS = ["OrderStatus_Name", "Customer Phone Number", "Deliverer Phone N
 
 class SelectionForm extends Component {
   state = {
-    checkboxes: OPTIONS.reduce(
+    checkboxes: this.props.options.reduce(
       (options, option) => ({
         ...options,
         [option]: false
