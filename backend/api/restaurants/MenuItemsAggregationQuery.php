@@ -16,7 +16,7 @@
        : die(http_response_code(404));
 
     // Create and execute query 
-    $query = "SELECT OI.ID  FROM OrderInformation OI 
+    $query = "SELECT OI.OrderInformation_ID FROM OrderInformation OI 
             INNER JOIN OrderContainsMenuItem OM ON OI.ID = OM.OrderID
             INNER JOIN MenuItemsMadeAt MA ON MA.RestaurantAddress = OI.RestaurantAddress AND MA.MenuItemName = OM.MenuItemName
             INNER JOIN OrderStatus OS ON OI.OrderStatusID = OS.ID

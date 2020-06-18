@@ -16,14 +16,23 @@
        : die(http_response_code(404));
 
     // Create and execute query 
-    $query = "SELECT * FROM 
-    (OrderContainsMenuItems om1 
-    INNER JOIN OrderInformation oi1 WHERE RestaurantAddress = :RestaurantAddress)
-    WHERE NOT DXISTS (
-    (SELECT m.MenuItemName FROM MenuItemsMadeAt m WHERE RestaurantAddress = :RestaurantAddress)
-    EXCEPT
-    (SELECT om2.MenuItemName FROM OrderContainsMenuItems om2 
-    INNER JOIN OrderInformation oi2 WHERE oi2.CustomerPhoneNumber = oi1.CustomerPhoneNumber))";
+    $query = "SELECT *
+    FROM Customers c
+    WHERE NOT EXISTS (
+      (SELECT m.MenuItem_Name 
+       FROM MenuItemsMadeAt m 
+       WHERE m.Restaurant_Address = '2033 E Hastings St')
+      MINUS
+      (SELECT m2.MenuItem_Name
+       FROM OrderInformation oi
+       INNER JOIN OrderContainsMenuItem ocmi
+        ON oi.OrderInformation_ID = ocmi.OrderInformation_ID
+       INNER JOIN MenuItemsMadeAt m2
+        ON (ocmi.MenuItem_Name = m2.MenuItem_Name
+            AND ocmi.Restaurant_Address = m2.Restaurant_Address)
+       WHERE oi.Customer_PhoneNumber = c.Customer_PhoneNumber
+         AND oi.Restaurant_Address = :RestaurantAddress)
+    )";
     $bindvars = [[":RestaurantAddress", $restaurant_address]];
 
     $result = $database->executeFetchAll($query, $bindvars);
