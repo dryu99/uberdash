@@ -168,7 +168,6 @@ CREATE TABLE RestaurantIsOfType(
 );
 GRANT ALL PRIVILEGES ON RestaurantIsOfType TO public
 
-
 -- Initialization of table instances / tuples
 INSERT INTO PaymentInfo 
 VALUES ('12345678', 'Mingxin Gong', '5501 West Mall, V5X 3L4');
@@ -232,6 +231,12 @@ INSERT INTO OrderInformation
 VALUES (1, TO_DATE('06-2-2020','mm-dd-yyyy'), '1234 10th Avenue, V6Y 5I9', 1, '2033 E Hastings St', '2', '778-666-7777');
 INSERT INTO OrderInformation
 VALUES (2, TO_DATE('06-3-2020','mm-dd-yyyy'), '1430 Wesbrook Mall', 2, '4700 Kingsway Unit 1200e', '3', '778-777-8888');
+INSERT INTO OrderInformation
+VALUES (3, TO_DATE('06-4-2020','mm-dd-yyyy'), '1430 Wesbrook Mall', 1, '2033 E Hastings St', '3', '778-666-7777');
+INSERT INTO OrderInformation
+VALUES (4, TO_DATE('06-5-2020','mm-dd-yyyy'), '1430 Wesbrook Mall', 1, '2033 E Hastings St', '3', '778-666-7777');
+INSERT INTO OrderInformation
+VALUES (5, TO_DATE('06-6-2020','mm-dd-yyyy'), '1430 Wesbrook Mall', 2, '2033 E Hastings St', '3', '778-666-7777');
 
 INSERT INTO MenuItemsMadeAt
 VALUES ('Patty Melt', '2909 Grandview Hwy', 5.25, 'Eat Me Now', 3);
@@ -240,12 +245,28 @@ VALUES ('Hot Cakes', '2909 Grandview Hwy', 4.50, 'Eat Me Fast', 2);
 INSERT INTO MenuItemsMadeAt
 VALUES ('McChicken', '2033 E Hastings St', 5.50, 'Delicious', 3.50);
 INSERT INTO MenuItemsMadeAt
+VALUES ('Filet-o-Fish', '2033 E Hastings St', 3.50, 'Awesome', 5.50);
+INSERT INTO MenuItemsMadeAt
+VALUES ('Big Mac', '2033 E Hastings St', 6.50, 'The classic', 1.50);
+INSERT INTO MenuItemsMadeAt
 VALUES ('Whopper', '4700 Kingsway Unit 1200e', 3.75, 'Grilled', 2);
 
 INSERT INTO OrderContainsMenuItem
 VALUES (0, 'Patty Melt', '2909 Grandview Hwy', 2);
 INSERT INTO OrderContainsMenuItem
 VALUES (1, 'McChicken', '2033 E Hastings St', 5);
+INSERT INTO OrderContainsMenuItem
+VALUES (1, 'Filet-o-Fish', '2033 E Hastings St', 2);
+INSERT INTO OrderContainsMenuItem
+VALUES (1, 'Big Mac', '2033 E Hastings St', 1);
+INSERT INTO OrderContainsMenuItem
+VALUES (3, 'Whopper', '4700 Kingsway Unit 1200e', 3);
+INSERT INTO OrderContainsMenuItem
+VALUES (3, 'Big Mac', '2033 E Hastings St', 3);
+INSERT INTO OrderContainsMenuItem
+VALUES (4, 'McChicken', '2033 E Hastings St', 1);
+INSERT INTO OrderContainsMenuItem
+VALUES (5, 'Filet-o-Fish', '2033 E Hastings St', 3);
 INSERT INTO OrderContainsMenuItem
 VALUES (2, 'Whopper', '4700 Kingsway Unit 1200e', 3);
 

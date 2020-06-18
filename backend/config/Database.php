@@ -46,7 +46,6 @@
      *
      * @param string $sql The statement to run
      * @param array $bindvars Binds. An array of (bv_name, php_variable)
-     * @return boolean
      */
     public function execute($sql, $bindvars = array()) {
       $this->statement = OCIParse($this->db_conn, $sql);
