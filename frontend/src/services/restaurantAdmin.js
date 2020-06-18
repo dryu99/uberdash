@@ -9,4 +9,10 @@ async function getOrders(rAddress, columns) {
     return response.data
 }
 
-export default { getOrders };
+// get data from select columns for Restaurant's Orders View
+async function getBestCustomer(rAddress) {
+    const response = await axios.get(`${baseUrl}/getBestCustomerDivisionQuery.php?RestaurantAddress=${rAddress}`);
+    return response.data
+}
+
+export default { getOrders, getBestCustomer};

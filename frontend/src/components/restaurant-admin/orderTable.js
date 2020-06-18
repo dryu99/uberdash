@@ -25,7 +25,7 @@ class OrderTable extends React.Component {
         var items = this.props.data;
         var keys = this.getKeys();
         return items.map((row, index)=>{
-        return <tr key={index}><RenderRow key={index} data={row} keys={keys}/></tr>
+        return <tr key={index}><RenderRow key={Math.random()} data={row} keys={keys}/></tr>
         })
     }
     

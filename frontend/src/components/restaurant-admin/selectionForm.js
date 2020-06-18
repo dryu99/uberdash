@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Checkbox from "./CheckBox.js";
 
 
-const OPTIONS = ["Address", "OrderStatus", "Customer Phone Number", "Deliverer Phone Number"];
+const OPTIONS = ["OrderStatus_Name", "Customer Phone Number", "Deliverer Phone Number"];
 
 class SelectionForm extends Component {
   state = {
@@ -91,7 +91,7 @@ class SelectionForm extends Component {
                   Deselect All
                 </button>
                 <button type="submit" className="btn btn-primary">
-                  Save
+                  Select Columns
                 </button>
               </div>
             </form>
