@@ -5,14 +5,16 @@ import RestaurantAdminHome from './components/restaurant-admin/RestaurantAdminHo
 import DelivererHome from './components/deliverer/DelivererHome';
 
 function App() {
-  const [userType, setUserType] = useState();
+  const [userType, setUserType] = useState('customer');
   const [currentUser, setCurrentUser] = useState(null);
 
   // check if user data is available in cache
   useEffect(() => {
     const loggedInUserJSON = window.localStorage.getItem('loggedInUser');
     if (loggedInUserJSON) {
-      setCurrentUser(JSON.parse(loggedInUserJSON));
+      const user = JSON.parse(loggedInUserJSON);
+      setCurrentUser(user);
+      setUserType(user.type);
     }
   }, []);
 
@@ -24,9 +26,9 @@ function App() {
 
   // conditionally choose user component based on current user type
   let userComponent;
-  if (userType === 'customer' || currentUser && currentUser.type === 'customer') {
+  if (userType === 'customer') {
     userComponent = <CustomerHome currentUser={currentUser}/>;
-  } else if (userType === 'restaurantAdmin' || currentUser && currentUser.type === 'restaurantAdmin') {
+  } else if (userType === 'restaurantAdmin') {
     userComponent = <RestaurantAdminHome currentUser={currentUser}/>;
   } else {
     userComponent = <DelivererHome currentUser={currentUser} setCurrentUser={setCurrentUser}/>;
@@ -37,7 +39,6 @@ function App() {
       <h1>UberDash</h1>
       {currentUser ?
         <div>
-          <h3>Current user: {currentUser.NAME}</h3>
           {userComponent}
           <button onClick={handleLogout}>logout</button>
         </div>
