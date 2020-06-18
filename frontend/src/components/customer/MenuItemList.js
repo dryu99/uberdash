@@ -43,7 +43,11 @@ function MenuItemList({currentUser, restaurantAddress}) {
     }
 
     function orderSubmitComponentView() {
-        setCurrentViewOrderSubmit(orderedItems);
+        if (orderedItems.length === 0) {
+            alert('Please select an item before proceeding!');
+        } else {
+            setCurrentViewOrderSubmit(orderedItems);
+        }
     }
 
     useEffect(() => {
@@ -62,10 +66,7 @@ function MenuItemList({currentUser, restaurantAddress}) {
             <Table striped bordered hover>
             <thead>
                 <tr>
-                <th>
-                    <input type="checkbox">
-                    </input>
-                </th>
+                <th></th>
                 <th>Item</th>
                 <th>Cost ($CDN)</th>
                 <th>Description</th>

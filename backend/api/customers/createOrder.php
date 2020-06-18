@@ -41,7 +41,7 @@
     FROM Deliverer
     INNER JOIN OrderInformation 
     ON Deliverer.Deliverer_PhoneNumber = OrderInformation.Deliverer_PhoneNumber
-    WHERE WorkStatus = 1 AND OrderStatus_ID != 2
+    WHERE WorkStatus = 1 AND OrderStatus_ID != 3
     GROUP BY Deliverer.Deliverer_PhoneNumber
     ORDER BY COUNT(*)";
     $deliverers = $database->executeFetchAll($queryDeliverer);
