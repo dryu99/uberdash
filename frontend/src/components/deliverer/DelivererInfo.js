@@ -87,14 +87,6 @@ function DelivererInfo({ currentUser, setCurrentUser }) {
             <b>Email: </b>
             <input value={email} onChange={({ target }) => setEmail(target.value)}></input>
           </div>
-          {/* <div>
-            <b>Vehicle License Plate #: </b>
-            <input value={licensePlate} onChange={({ target }) => setLicensePlate(target.value)}></input>
-          </div>
-          <div>
-            <b>Vehicle Model: </b>
-            <input value={vehicleModel} onChange={({ target }) => setVehicleModel(target.value)}></input>
-          </div> */}
           <button type="submit">Submit</button>
           <button onClick={handleUpdateCancel}>Cancel</button>
         </form>

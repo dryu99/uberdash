@@ -239,6 +239,10 @@ INSERT INTO OrderInformation
 VALUES (4, TO_DATE('06-5-2020','mm-dd-yyyy'), '1430 Wesbrook Mall', 1, '2033 E Hastings St', '3', '778-666-7777');
 INSERT INTO OrderInformation
 VALUES (5, TO_DATE('06-6-2020','mm-dd-yyyy'), '1430 Wesbrook Mall', 2, '2033 E Hastings St', '3', '778-666-7777');
+INSERT INTO OrderInformation
+VALUES (6, TO_DATE('06-5-2020','mm-dd-yyyy'), '112 Larkin Dr.', 1, '2033 E Hastings St', '3', '778-555-6666');
+INSERT INTO OrderInformation
+VALUES (7, TO_DATE('06-5-2020','mm-dd-yyyy'), '333 Pender Way', 2, '2033 E Hastings St', '3', '778-555-6666');
 
 INSERT INTO MenuItemsMadeAt
 VALUES ('Patty Melt', '2909 Grandview Hwy', 5.25, 'Eat Me Now', 3);

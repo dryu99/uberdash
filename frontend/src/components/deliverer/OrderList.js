@@ -5,14 +5,16 @@ import orderService from '../../services/orderInformation';
 function OrderList({ orders, setOrders }) {
 
   // callback for update status button
-  async function updateDeliveryStatus(order) {
+  async function updateDeliveryStatus(order, newOrderStatus) {
     const orderID = order.ORDERINFORMATION_ID;
-    if(window.confirm(`Are you sure you want to update delivery status of Order No. ${orderID}?`)) {
+    const newOrderStatusName = newOrderStatus === 2 ? '"Delivering"' : '"Completed"';
+
+    if(window.confirm(`Are you sure you want to update order status of Order No. ${orderID} to ${newOrderStatusName}?`)) {
       try {
         // update order status for given order in db
         await orderService.updateSingleOrderStatus({
           orderInfoID: orderID,
-          orderStatusID: 3
+          orderStatusID: newOrderStatus
         });
 
         // retrieve given order from db and update frontend state
