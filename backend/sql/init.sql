@@ -219,11 +219,13 @@ INSERT INTO Deliverer
 VALUES ('Christopher Est', '778-777-8888', 'iamchristopher123', 'christopher.est@gmail.com', 1, '241EKA');
 
 INSERT INTO OrderStatus
-VALUES (0, 'Processing Order');
+VALUES (0, 'Order Received by Restaurant');
 INSERT INTO OrderStatus
-VALUES (1, 'Order Received By Restaurant');
+VALUES (1, 'Order Ready for Pickup');
 INSERT INTO OrderStatus
-VALUES (2, 'Completed');
+VALUES (2, 'Order is Being Delivered');
+INSERT INTO OrderStatus
+VALUES (3, 'Completed');
 
 INSERT INTO OrderInformation
 VALUES (0, TO_DATE('06-1-2020','mm-dd-yyyy'), '1430 Wesbrook Mall', 0, '2909 Grandview Hwy', '1', '778-555-6666');
