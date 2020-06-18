@@ -11,7 +11,7 @@
     $database->connect();  
 
      // get params from request
-    $restaurant_address = isset($_GET['ID']) 
+    $id = isset($_GET['ID']) 
        ? $_GET['ID'] 
        : die(http_response_code(404));
 
@@ -19,7 +19,7 @@
     $query = "UPDATE OrderInformation SET OrderStatus_ID = '1' WHERE OrderInformation_ID = :ID";
     $bindvars = [[":ID", $id]];
 
-    $result = $database->executeFetchAll($query, $bindvars);
+    $result = $database->execute($query, $bindvars);
 
     // init response variable containing query result
     $response = count($result) > 0 
