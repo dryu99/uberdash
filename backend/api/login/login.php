@@ -34,7 +34,7 @@
       : die(http_response_code(404)); // query failed, specified user couldn't be found
 
     // return response in JSON format
-    echo json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
+    echo json_encode($response, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_NUMERIC_CHECK);
 
     // disconnect from DB
     $database->disconnect();
