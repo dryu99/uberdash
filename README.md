@@ -1,5 +1,5 @@
 # UberDash
-A very original idea from very original people.
+CPSC 304 Project. A very original idea from very original people.
 
 ## Development Setup
 - clone repo onto your local machine
